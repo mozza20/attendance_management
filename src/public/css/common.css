@@ -35,23 +35,98 @@ html {
 .header-nav__buttons {
     display: flex;
     justify-content: space-between;
-    width: 100%;
-    max-width: 463px;
     padding: 0 20px;
     font-size: 24px;
 }
 
 .page-link {
-    padding-top: 8px;
+    margin-left: 30px;
+    padding-top: 6px;
     text-decoration: none;
     color: #ffffff;
 }
 
+.page-link:last-of-type {
+    margin-right: 30px;
+}
+
 .logout-button button {
-    padding-top: 8px;
+    padding-top: 5px;
     border: none;
     outline: none;
     background-color: transparent;
     color: #ffffff;
     font-size: 24px;
+}
+
+/* mainタイトル*/
+.content {
+    text-align: center;
+}
+
+.content__title {
+    margin-top: 100px;
+    font-family: 'Inter';
+    font-size: 36px;
+    font-weight: 700;
+    color: #000000;
+}
+
+/* ログイン、会員登録のフォーム */
+.form-area {
+    width: 680px;
+    margin: 70px auto;
+    color: #000000;
+    font-size: 24px;
+}
+
+.form__label {
+    display: block;
+    text-align: left;
+    font-family: 'Inter';
+    font-weight: 700;
+}
+
+.form__input {
+    width: 680px;
+    height: 56px;
+    padding-left: 20px;
+    border: 1px solid #5F5F5F;
+    border-radius: 4px;
+    font-size: 24px;
+}
+
+.form__error-message {
+    display: block;
+    margin-top: 0;
+    text-align: left;
+    color: #FF5555;
+    font-size: 20px;
+}
+
+/* ログイン、会員登録画面*/
+.form__button {
+    display: block;
+    width: 680px;
+    margin: 100px auto 20px auto;
+    padding: 10px 0;
+    text-align: center;
+    background-color: #000000;
+    border: none;
+    border-radius: 5px;
+    color: #FFFFFF;
+    font-size: 26px;
+    font-weight: bold;
+}
+
+.under-button__link {
+    text-decoration: none;
+    color: #0073CC;
+    font-size: 20px;
+
+}
+
+button,
+a {
+    cursor: pointer;
 }

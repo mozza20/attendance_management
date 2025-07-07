@@ -1,0 +1,28 @@
+.attendance--register {
+    margin: 210px auto 0 auto;
+    width: 400px;
+    text-align: center;
+}
+
+.attendance-status {
+    display: inline-block;
+    width: 100px;
+    height: 40px;
+    text-align: center;
+    line-height: 40px;
+    border-radius: 50px;
+    background-color: #C8C8C8;
+    color: #696969;
+    font-size: 18px;
+    font-weight: bold;
+    letter-spacing: 15%;
+}
+
+.date {
+    font-size: 40px;
+}
+
+.time {
+    font-size: 80px;
+    font-weight: 800;
+}

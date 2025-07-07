@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\UserController;
 use App\Http\Controllers\MailTestController; // メール認証用
 
 /*
@@ -49,6 +50,10 @@ Route::post('/email/verification-notification', function (Request $request) {
 Route::middleware('auth','verified')->group(function () {
     //各ページのルートを記述
 });
+
+// ログイン必須に入れる
+// 勤怠登録画面表示
+Route::get('/attendance',[UserController::class,'attendance'])->name('attendance');
 
 // ログアウト
 Route::middleware('auth')->group(function () {
