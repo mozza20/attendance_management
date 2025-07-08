@@ -6,9 +6,14 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth; 
 use Illuminate\Support\Facades\Hash;
 
+use DateTime;
+
 class UserController extends Controller
 {
     public function attendance(){
-        return view('attendance');
+        $now=new DateTime();
+        $date=$now->format('Y年n月j日');
+        $time=$now->format('H:i');
+        return view('attendance',compact('date','time'));
     }
 }
