@@ -15,6 +15,8 @@
         <!-- <button class="attendance__button" name="finish">退勤</button> -->
         <!-- <button class="break__button" name="break">休憩入</button> -->
         <!-- <button class="break__button" name="break-end">休憩戻</button> -->
+        <!-- <p class="finish-message">お疲れさまでした。</p> -->
     </form>
+    
 </div>
 @endsection

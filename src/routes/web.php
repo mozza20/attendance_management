@@ -53,7 +53,9 @@ Route::middleware('auth','verified')->group(function () {
 
 // ログイン必須に入れる
 // 勤怠登録画面表示
-Route::get('/attendance',[UserController::class,'attendance'])->name('attendance');
+Route::get('/attendance',[UserController::class,'attendance'])->name('user.attendance');
+//勤怠一覧表示
+Route::get('/attendance/list',[UserController::class,'index'])->name('user.attendanceList');
 
 // ログアウト
 Route::middleware('auth')->group(function () {
