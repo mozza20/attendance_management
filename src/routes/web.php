@@ -37,7 +37,7 @@ Route::get('/email/verify',function(){
 // メール認証リンクからのアクセス
 Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
     $request->fulfill(); // メール確認済み状態にする
-    return redirect('/');
+    return redirect('/attendance');
 })->middleware(['auth', 'signed'])->name('verification.verify');
 
 // メール再送信処理
@@ -48,14 +48,17 @@ Route::post('/email/verification-notification', function (Request $request) {
 
 // ログイン必須画面
 Route::middleware('auth','verified')->group(function () {
-    //各ページのルートを記述
+    // 勤怠登録画面表示
+    Route::get('/attendance',[UserController::class,'attendance'])->name('user.attendance');
+
+    //勤怠一覧表示
+    Route::get('/attendance/list',[UserController::class,'index'])->name('user.attendanceList');
+
 });
 
-// ログイン必須に入れる
-// 勤怠登録画面表示
-Route::get('/attendance',[UserController::class,'attendance'])->name('user.attendance');
-//勤怠一覧表示
-Route::get('/attendance/list',[UserController::class,'index'])->name('user.attendanceList');
+//ログイン必須に入れる
+// 勤怠詳細表示 パスにattendance_id入れる
+Route::get('/attendance/detail/',[UserController::class,'show'])->name('attendanceDetail.show');
 
 // ログアウト
 Route::middleware('auth')->group(function () {

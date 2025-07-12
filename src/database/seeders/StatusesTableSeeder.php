@@ -19,8 +19,6 @@ class StatusesTableSeeder extends Seeder
             "出勤中",
             "休憩中",
             "退勤済",
-            "承認待ち",
-            "承認済",
         ];
 
         foreach ($statuses as $status) {

@@ -7,6 +7,8 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use App\Http\Requests\RegisterRequest;
 use App\Http\Requests\LoginRequest;
+use App\Models\User;
+use App\Models\Admin;
 
 class AuthController extends Controller
 {
@@ -54,5 +56,15 @@ class AuthController extends Controller
         return back()->withErrors([
             'login' => 'ログイン情報が登録されていません',
         ])->withInput();
+    }
+
+    //ログアウト
+    public function logout(Request $request){
+        Auth::logout();
+        // セッションの全データ削除
+        $request->session()->invalidate();
+        // CSRFトークンの再発行
+        $request->session()->regenerateToken();
+        return redirect('/login');
     }
 }

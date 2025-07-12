@@ -6,28 +6,23 @@
 
 @section('content')
 <div class="content">
-    <h1 class="title">勤怠一覧</h1>    
-    <div class="select-month">
-       <a class="previous-month" href="">前月</a>
-       <p class="current-month">2025/07</p>
-       <a class="next-month" href="">翌月</a>
-    </div>
+    <h2 class="title">勤怠一覧</h2>
     <table class="attendance--table">
-        <tr class="">
-            <td>日付</td>
-            <td>出勤</td>
-            <td>退勤</td>
-            <td>休憩</td>
-            <td>合計</td>
-            <td>詳細</td>
+        <tr class="table--row">
+            <th>日付</th>
+            <th>出勤</th>
+            <th>退勤</th>
+            <th>休憩</th>
+            <th>合計</th>
+            <th>詳細</th>
         </tr>
-        <tr class="">
+        <tr class="table--row">
             <td></td>
             <td></td>
             <td></td>
             <td></td>
             <td>
-                <a class="" href="">詳細</a>
+                <a class="detail" href="{{route('attendanceDetail.show')}}">詳細</a>
             </td>
 
         </tr>

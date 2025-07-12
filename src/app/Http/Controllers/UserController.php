@@ -21,4 +21,10 @@ class UserController extends Controller
     public function index(){
         return view('user.attendanceList');
     }
+
+    public function show(){
+        return view('user.attendanceDetail');
+    }
+
+
 }
