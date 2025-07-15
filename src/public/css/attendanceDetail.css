@@ -5,6 +5,7 @@ body {
 .table--row {
     height: 80px;
     border-bottom: 2px solid #E1E1E1;
+    font-family: 'Inter';
 }
 
 .table--header {
@@ -14,20 +15,25 @@ body {
 }
 
 .table--data {
+    padding-left: 50px;
     color: #000000;
+    font-family: 'Inter';
     font-size: 16px;
     font-weight: bold;
     letter-spacing: 0.15em;
 }
 
-
-
 .table--data__start,
 .table--data__finish {
     width: 103px;
     height: 29px;
+    text-align: center;
     border: 1px solid #E1E1E1;
     border-radius: 4px;
+    font-family: 'Inter';
+    font-size: 16px;
+    font-weight: bold;
+    letter-spacing: 0.15em;
 }
 
 .table--data__textarea {

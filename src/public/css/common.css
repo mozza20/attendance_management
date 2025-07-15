@@ -60,11 +60,11 @@ html {
 }
 
 /* mainタイトル*/
-.content {
+.auth__content {
     text-align: center;
 }
 
-.content__title {
+.auth__title {
     margin-top: 100px;
     font-family: 'Inter';
     font-size: 36px;

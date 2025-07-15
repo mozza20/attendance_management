@@ -1,8 +1,8 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="content">
-    <h2 class="content__title">会員登録</h2>
+<div class="auth__content">
+    <h2 class="auth__title">会員登録</h2>
     @section('no-nav')
     @endsection
     <div class="register__content">

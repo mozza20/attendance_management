@@ -49,7 +49,10 @@ Route::post('/email/verification-notification', function (Request $request) {
 // ログイン必須画面
 Route::middleware('auth','verified')->group(function () {
     // 勤怠登録画面表示
-    Route::get('/attendance',[UserController::class,'attendance'])->name('user.attendance');
+    Route::get('/attendance',[UserController::class,'attendance'])->name('attendance.index');
+
+    //勤怠登録
+    Route::post('/attendance',[UserController::class,'input'])->name('attendance.input');
 
     //勤怠一覧表示
     Route::get('/attendance/list',[UserController::class,'index'])->name('user.attendanceList');

@@ -11,7 +11,7 @@
         <table class="attendance--table">
             <tr class="table--row">
                 <th class="table--header">名前</th>
-                <td class="table--data"></td>
+                <td class="table--data">{{$user['name']}}</td>
             </tr>
             <tr class="table--row">
                 <th class="table--header">日付</th>
@@ -23,23 +23,16 @@
             <tr class="table--row">
                 <th class="table--header">出勤・退勤</th>
                 <td class="table--data">
-                    <p class="table--data__year"></p>
-                    <p class="table--data__date"></p>
-                </td>
-            </tr>
-            <tr class="table--row">
-                <th class="table--header">出勤・退勤</th>
-                <td class="table--data">
-                    <input class="table--data__start" type="time"></input>
-                    <input class="table--data__finish" type="time"></input>
+                    <input class="table--data__start" type="text" pattern="[0-2][0-9]:[0-5][0-9]"></input>
+                    <input class="table--data__finish" type="text" pattern="[0-2][0-9]:[0-5][0-9]"></input>
                 </td>
             </tr>
             {{--@foreach('$breaks as $break') 休憩回数を表示--}}
             <tr class="table--row">
                 <th class="table--header">休憩</th>
                 <td class="table--data">
-                    <input class="table--data__start" type="time"></input>
-                    <input class="table--data__finish" type="time"></input>
+                    <input class="table--data__start" type="text" pattern="[0-2][0-9]:[0-5][0-9]"></input>
+                    <input class="table--data__finish" type="text" pattern="[0-2][0-9]:[0-5][0-9]"></input>
                 </td>
             </tr>
             {{--@endforeach--}}
