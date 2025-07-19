@@ -15,10 +15,10 @@ class StatusesTableSeeder extends Seeder
     public function run()
     {
         $statuses=[
-            "勤務外",
-            "出勤中",
-            "休憩中",
-            "退勤済",
+            1=>"勤務外",
+            2=>"出勤中",
+            3=>"休憩中",
+            4=>"退勤済",
         ];
 
         foreach ($statuses as $status) {

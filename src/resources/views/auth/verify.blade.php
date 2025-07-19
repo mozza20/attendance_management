@@ -29,6 +29,7 @@
         height:69px;
         margin:0 auto;
         line-height:69px;
+        text-align:center;
         border:1px solid #000000;
         border-radius:10px;
         background-color:#D9D9D9;

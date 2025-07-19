@@ -13,12 +13,12 @@ class CreateBreakTimesTable extends Migration
      */
     public function up()
     {
-        Schema::create('breaks', function (Blueprint $table) {
+        Schema::create('break_times', function (Blueprint $table) {
             $table->id();
-            $table->string('attedance_id')->unique();
+            $table->foreignId('attendance_id')->constrained()->cascadeOnDelete();
             $table->time('start_time');
-            $table->time('end_time');
-            $table->time('break_total');
+            $table->time('end_time')->nullable();
+            $table->time('break_total')->nullable();
             $table->timestamps();
         });
     }

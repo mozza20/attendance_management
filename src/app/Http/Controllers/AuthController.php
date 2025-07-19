@@ -27,9 +27,12 @@ class AuthController extends Controller
 
         // ログイン
         Auth::login($user);
+
+        if (!Auth::user()->hasVerifiedEmail()) {
+            return redirect()->route('verification.notice');
+        }
         return redirect('/attendance');
     }
-
 
     // ログイン画面の表示
     public function showLoginForm(){

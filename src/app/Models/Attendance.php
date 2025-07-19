@@ -15,12 +15,20 @@ class Attendance extends Model
         'date',
         'start_time',
         'finish_time',
-        'attendance_total',
+        'work_total',
         'status_id',
         'remarks'
     ];
 
+    public function user(){
+        return $this->belongsTo(User::class);
+    }
+
     public function breakTimes(){
         return $this->hasMany(BreakTime::class);
+    }
+
+    public function status(){
+        return $this->belongsTo(Status::class);
     }
 }
