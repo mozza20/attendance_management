@@ -10,6 +10,7 @@ use App\Models\Status;
 use App\Models\Attendance;
 use App\Models\BreakTime;
 use Carbon\Carbon;
+use Carbon\CarbonImmutable;
 
 use Illuminate\Support\Facades\Log;
 
@@ -19,8 +20,8 @@ use DateTime;
 class UserController extends Controller
 {
     public function attendance(){
-        $now=new DateTime();
-        $date=$now->format('Y年n月j日');
+        $now=CarbonImmutable::now();
+        $date=$now->isoFormat('Y年M月DD日(ddd)');
         $time=$now->format('H:i');
         $user=\App\Models\User::find(Auth::id());//DBから最新情報を取得
         $attendance = \App\Models\Attendance::where('user_id', $user->id)
@@ -63,12 +64,12 @@ class UserController extends Controller
                     //退勤
                     $start=Carbon::parse($attendance->start_time);
                     $end=now();
-                    $workMinutes=$start->diffInMinutes($end);
+                    $workTime=$start->diffInSeconds($end);
                     $totalBreak=$attendance->breakTimes()->sum('break_total');
 
                     $attendance->update([
                         'finish_time'=>$end->toTimeString(),
-                        'work_total'=>$workMinutes-$totalBreak,
+                        'work_total'=>gmdate('H:i:s',$workTime-$totalBreak),
                         'status_id' => 4, // 退勤済みに更新
                     ]);
                 }
@@ -82,7 +83,7 @@ class UserController extends Controller
 
                 $break->update([
                     'end_time'=>now()->toTimeString(),
-                    'break_total'=>gmdate('H:i:s',$diffInSeconds),
+                    'break_total'=>$diffInSeconds,
                 ]);
                 $attendance->update(['status_id'=>2]);
                 break;
@@ -94,7 +95,22 @@ class UserController extends Controller
     }
 
     public function index(){
-        return view('user.attendanceList');
+        $user=Auth::user();
+        $user_id=$user->id;
+
+        $now=CarbonImmutable::now();
+        $startOfMonth=$now->startOfMonth();
+        $endOfMonth=$now->endOfMonth();
+        $thisMonth=$now->isoFormat('Y/MM');
+
+        $attendances=Attendance::where('user_id',$user_id)
+        ->whereBetween('date',[$startOfMonth,$endOfMonth])
+        ->get();
+
+        $attendance_ids=$attendances->pluck('id');
+        $breakTimes=BreakTime::whereIn('attendance_id',$attendance_ids)->get();
+    
+        return view('user.attendanceList',compact('attendances','breakTimes','thisMonth'));
     }
 
     public function show(){

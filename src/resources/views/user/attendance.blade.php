@@ -15,7 +15,7 @@
             <button class="attendance__button" name="action" value="work">出勤</button>
         @elseif($status_id===2)
             <button class="attendance__button" name="action" value="leave">退勤</button>
-            <button class="break__button" name="action" value="break">休憩入</button>
+            <button class="break__button" name="action" value="break">休憩入</button>            
         @elseif($status_id===3)
             <button class="break__button" name="action" value="work">休憩戻</button>
         @elseif($status_id===4)

@@ -24,13 +24,14 @@ body {
 }
 
 .date {
-    margin: 30px auto;
+    margin: 10px auto;
     font-size: 40px;
 }
 
 .time {
     margin: 40px auto 90px auto;
-    height: 100px;
+    line-height: 80px;
+    height: 80px;
     font-size: 80px;
     font-weight: bold;
 }
@@ -61,4 +62,11 @@ body {
 .break__button {
     background-color: #FFFFFF;
     color: #000000;
+}
+
+.finish-message {
+    text-align: center;
+    font-size: 26px;
+    font-weight: bold;
+    letter-spacing: 0.15em;
 }
