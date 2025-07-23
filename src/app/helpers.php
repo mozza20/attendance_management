@@ -4,7 +4,7 @@ use Carbon\Carbon;
 function formatJapaneseDate($date){
     $carbon=Carbon::parse($date);
     $week=['日','月','火','水','木','金','土'][$carbon->dayOfWeek];
-    return $carbon->format('n/j')."($week)";
+    return $carbon->format('m/d')."($week)";
 }
 
 function formatTime($time){

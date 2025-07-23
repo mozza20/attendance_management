@@ -30,7 +30,6 @@ body {
     padding: 17px 25px;
     border-radius: 10px;
     background-color: #ffffff;
-
 }
 
 .previous-month,
@@ -76,4 +75,26 @@ body {
     background-position: center;
     background-size: contain;
     background-repeat: no-repeat;
+}
+
+.table--row {
+    height: 45px;
+    border-bottom: 2px solid #E1E1E1;
+}
+
+.header__date,
+.data__date {
+    width: 200px;
+    padding-left: 60px;
+    text-align: left;
+}
+
+.header__others,
+.data__others {
+    text-align: center;
+}
+
+
+.table--row:first-of-type {
+    border-bottom: 3px solid #E1E1E1;
 }

@@ -57,8 +57,8 @@ Route::middleware('auth','verified')->group(function () {
     //勤怠一覧表示
     Route::get('/attendance/list',[UserController::class,'index'])->name('user.attendanceList');
 
-    // 勤怠詳細表示 パスにattendance_id入れる
-    Route::get('/attendance/detail/',[UserController::class,'show'])->name('attendanceDetail.show');
+    // 勤怠詳細表示
+    Route::get('/attendance/detail/{attendance_id}',[UserController::class,'show'])->name('attendanceDetail.show');
 
 });
 

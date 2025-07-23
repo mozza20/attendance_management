@@ -16,24 +16,24 @@
     </div>
     <table class="attendance--table">
         <tr class="table--row">
-            <th>日付</th>
-            <th>出勤</th>
-            <th>退勤</th>
-            <th>休憩</th>
-            <th>合計</th>
-            <th>詳細</th>
+            <th class=header__date>日付</th>
+            <th class=header__others>出勤</th>
+            <th class=header__others>退勤</th>
+            <th class=header__others>休憩</th>
+            <th class=header__others>合計</th>
+            <th class=header__others>詳細</th>
         </tr>
         @foreach($attendances as $attendance)
         <tr class="table--row">
-            <td>{{formatJapaneseDate($attendance->date)}}</td>
-            <td>{{formatTime($attendance->start_time)}}</td>
-            <td>{{formatTime($attendance->finish_time)}}</td>
-            <td>
-                {{ gmdate('H:i', $attendance->breakTimes->sum('break_total')) }}
+            <td class=data__date>{{formatJapaneseDate($attendance->date)}}</td>
+            <td class="data__others">{{formatTime($attendance->start_time)}}</td>
+            <td class="data__others">{{formatTime($attendance->finish_time)}}</td>
+            <td class="data__others">
+                {{ gmdate('G:i', $attendance->breakTimes->sum('break_total')) }}
             </td>
-            <td>{{formatTime($attendance->work_total)}}</td>
-            <td>
-                <a class="detail" href="{{route('attendanceDetail.show')}}">詳細</a>
+            <td class="data__others">{{formatTime($attendance->work_total)}}</td>
+            <td class="data__others">
+                <a class="detail" href="{{route('attendanceDetail.show',$attendance->id)}}">詳細</a>
             </td>
         </tr>
         @endforeach

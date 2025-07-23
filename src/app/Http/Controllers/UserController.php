@@ -69,7 +69,7 @@ class UserController extends Controller
 
                     $attendance->update([
                         'finish_time'=>$end->toTimeString(),
-                        'work_total'=>gmdate('H:i:s',$workTime-$totalBreak),
+                        'work_total'=>gmdate('G:i:s',$workTime-$totalBreak),
                         'status_id' => 4, // 退勤済みに更新
                     ]);
                 }
@@ -113,9 +113,12 @@ class UserController extends Controller
         return view('user.attendanceList',compact('attendances','breakTimes','thisMonth'));
     }
 
-    public function show(){
+    public function show($attendance_id){
         $user=Auth::user();
-        return view('user.attendanceDetail',compact('user'));
+        $user_id=$user->id;
+        $attendance=Attendance::where('user_id',$user_id)
+        ->findOrFail($attendance_id);
+        return view('user.attendanceDetail',compact('user','attendance'));
     }
 
 }
