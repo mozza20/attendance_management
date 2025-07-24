@@ -11,31 +11,34 @@
         <table class="attendance--table">
             <tr class="table--row">
                 <th class="table--header">名前</th>
-                <td class="table--data">{{$user['name']}}</td>
+                <td class="table--data">
+                    <p class="table--data__name">{{$user['name']}}</p></td>
             </tr>
             <tr class="table--row">
                 <th class="table--header">日付</th>
                 <td class="table--data">
-                    <p class="table--data__year"></p>
-                    <p class="table--data__date"></p>
+                    <p class="table--data__year">{{formatJapaneseYear($attendance->date)}}</p>
+                    <p class="table--data__day">{{formatJapaneseDay($attendance->date)}}</p>
                 </td>
             </tr>
             <tr class="table--row">
                 <th class="table--header">出勤・退勤</th>
                 <td class="table--data">
-                    <input class="table--data__start" type="text" pattern="[0-2][0-9]:[0-5][0-9]"></input>
-                    <input class="table--data__finish" type="text" pattern="[0-2][0-9]:[0-5][0-9]"></input>
+                    <input class="table--data__start" type="text" pattern="[0-2][0-9]:[0-5][0-9]" value="{{formatTime($attendance->start_time)}}">
+                    <p class="tilde">～</p>
+                    <input class="table--data__finish" type="text" pattern="[0-2][0-9]:[0-5][0-9]" value="{{formatTime($attendance->finish_time)}}">
                 </td>
             </tr>
-            {{--@foreach('$breaks as $break') 休憩回数を表示--}}
+            @foreach($breakTimes as $breakTime) 
             <tr class="table--row">
                 <th class="table--header">休憩</th>
                 <td class="table--data">
-                    <input class="table--data__start" type="text" pattern="[0-2][0-9]:[0-5][0-9]"></input>
-                    <input class="table--data__finish" type="text" pattern="[0-2][0-9]:[0-5][0-9]"></input>
+                    <input class="table--data__start" type="text" pattern="[0-2][0-9]:[0-5][0-9]" value="{{formatTime($breakTime->start_time)}}">
+                    <p class="tilde">～</p>
+                    <input class="table--data__finish" type="text" pattern="[0-2][0-9]:[0-5][0-9]" value="{{formatTime($breakTime->end_time)}}">
                 </td>
             </tr>
-            {{--@endforeach--}}
+            @endforeach
             <tr class="table--row">
                 <th class="table--header">備考</th>
                 <td class="table--data">

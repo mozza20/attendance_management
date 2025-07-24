@@ -118,7 +118,9 @@ class UserController extends Controller
         $user_id=$user->id;
         $attendance=Attendance::where('user_id',$user_id)
         ->findOrFail($attendance_id);
-        return view('user.attendanceDetail',compact('user','attendance'));
+        $breakTimes=BreakTime::where('attendance_id',$attendance_id)->get();
+        
+        return view('user.attendanceDetail',compact('user','attendance','breakTimes'));
     }
 
 }

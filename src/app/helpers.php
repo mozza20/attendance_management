@@ -10,3 +10,11 @@ function formatJapaneseDate($date){
 function formatTime($time){
     return Carbon::parse($time)->format('H:i');
 }
+
+function formatJapaneseYear($date){
+    return Carbon::parse($date)->format('Y年');
+}
+
+function formatJapaneseDay($date){
+    return Carbon::parse($date)->format('n月j日');
+}

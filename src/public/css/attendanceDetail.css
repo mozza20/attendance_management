@@ -15,12 +15,29 @@ body {
 }
 
 .table--data {
-    padding-left: 50px;
     color: #000000;
     font-family: 'Inter';
     font-size: 16px;
     font-weight: bold;
     letter-spacing: 0.15em;
+}
+
+.table--data__name {
+    margin-left: 20px;
+}
+
+.table--data:nth-type(2) {
+    display: flex;
+}
+
+.table--data__year,
+.table--data__day {
+    display: inline;
+    margin-left: 20px;
+}
+
+.table--data__year {
+    margin-right: 110px;
 }
 
 .table--data__start,
@@ -34,6 +51,13 @@ body {
     font-size: 16px;
     font-weight: bold;
     letter-spacing: 0.15em;
+}
+
+.tilde {
+    display: inline-block;
+    width: 90px;
+    margin: 0 auto;
+    text-align: center;
 }
 
 .table--data__textarea {
