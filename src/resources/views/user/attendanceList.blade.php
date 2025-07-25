@@ -8,12 +8,13 @@
 <div class="content">
     <h2 class="title">勤怠一覧</h2>
 
-    <div class="select-month">
-        <a href="" class="previous-month">前月</a>
+    <form class="select-month" action="" method="POST">
+        @csrf
+        <button class="previous-month" name="shift" value="back">前月</button>
         <p class="current-month">{{$thisMonth}}</p>
-        <a href="" class="next-month">翌月</a>
+        <button class="next-month" name="shift" value="next">翌月</button>
 
-    </div>
+    </form>
     <table class="attendance--table">
         <tr class="table--row">
             <th class=header__date>日付</th>

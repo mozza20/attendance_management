@@ -94,23 +94,32 @@ class UserController extends Controller
         return back();
     }
 
-    public function index(){
+    public function index(Request $request){
         $user=Auth::user();
         $user_id=$user->id;
 
-        $now=CarbonImmutable::now();
-        $startOfMonth=$now->startOfMonth();
-        $endOfMonth=$now->endOfMonth();
-        $thisMonth=$now->isoFormat('Y/MM');
+        //試行中
+        if($request->input('shift')==='back'){
+            $currentMonth-=1;
+        }elseif($request->input('shift')==='next'){
+            $currentMonth+=1;
+        }
+        $currentYM = CarbonImmutable::now()->startOfMonth();
+        $previousYM = $currentYM->subMonth();
+        $nextYM= $currentYM->addMonth();
 
-        $attendances=Attendance::where('user_id',$user_id)
+        $startOfMonth=$currentYM->startOfMonth();
+        $endOfMonth=$currentYM->endOfMonth();
+        $thisMonth=$currentYM->isoFormat('Y/MM');
+
+        $attendanceData=Attendance::where('user_id',$user_id)
         ->whereBetween('date',[$startOfMonth,$endOfMonth])
         ->get();
 
-        $attendance_ids=$attendances->pluck('id');
+        $attendance_ids=$attendanceData->pluck('id');
         $breakTimes=BreakTime::whereIn('attendance_id',$attendance_ids)->get();
-    
-        return view('user.attendanceList',compact('attendances','breakTimes','thisMonth'));
+
+        return view('user.attendanceList',['attendances'=>$attendanceData],compact('breakTimes','thisMonth'));
     }
 
     public function show($attendance_id){
@@ -122,5 +131,25 @@ class UserController extends Controller
         
         return view('user.attendanceDetail',compact('user','attendance','breakTimes'));
     }
+
+    // 当月のみ表示
+    // public function index(){
+    //     $user=Auth::user();
+    //     $user_id=$user->id;
+
+    //     $now=CarbonImmutable::now();
+    //     $startOfMonth=$now->startOfMonth();
+    //     $endOfMonth=$now->endOfMonth();
+    //     $thisMonth=$now->isoFormat('Y/MM');
+
+    //     $attendances=Attendance::where('user_id',$user_id)
+    //     ->whereBetween('date',[$startOfMonth,$endOfMonth])
+    //     ->get();
+
+    //     $attendance_ids=$attendances->pluck('id');
+    //     $breakTimes=BreakTime::whereIn('attendance_id',$attendance_ids)->get();
+    
+    //     return view('user.attendanceList',compact('attendances','breakTimes','thisMonth'));
+    // }
 
 }
