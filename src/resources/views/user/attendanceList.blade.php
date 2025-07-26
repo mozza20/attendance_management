@@ -6,7 +6,7 @@
 
 @section('content')
 <div class="content">
-    <h2 class="title">勤怠一覧</h2>
+    <h1 class="title">勤怠一覧</h1>
 
     <form class="select-month" action="" method="GET">
         <input type="hidden" name="ym" value="{{ $currentYM }}">

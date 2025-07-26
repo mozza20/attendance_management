@@ -69,7 +69,7 @@ class UserController extends Controller
 
                     $attendance->update([
                         'finish_time'=>$end->toTimeString(),
-                        'work_total'=>gmdate('G:i:s',$workTime-$totalBreak),
+                        'work_total'=>$workTime-$totalBreak,
                         'status_id' => 4, // 退勤済みに更新
                     ]);
                 }
@@ -98,7 +98,6 @@ class UserController extends Controller
         $user=Auth::user();
         $user_id=$user->id;
 
-        //試行中
         $ym=$request->input('ym');
         if($ym){
             $currentYM = CarbonImmutable::createFromFormat('Y-m',$ym)->startOfMonth();
@@ -137,28 +136,10 @@ class UserController extends Controller
         $attendance=Attendance::where('user_id',$user_id)
         ->findOrFail($attendance_id);
         $breakTimes=BreakTime::where('attendance_id',$attendance_id)->get();
-        
-        return view('user.attendanceDetail',compact('user','attendance','breakTimes'));
+
+        $breakCount=$attendance->breakTimes()->count();
+
+        return view('user.attendanceDetail',compact('user','attendance','breakTimes','breakCount'));
     }
-
-    // 当月のみ表示
-    // public function index(){
-    //     $user=Auth::user();
-    //     $user_id=$user->id;
-
-    //     $now=CarbonImmutable::now();
-    //     $startOfMonth=$now->startOfMonth();
-    //     $endOfMonth=$now->endOfMonth();
-    //     $thisMonth=$now->isoFormat('Y/MM');
-
-    //     $attendances=Attendance::where('user_id',$user_id)
-    //     ->whereBetween('date',[$startOfMonth,$endOfMonth])
-    //     ->get();
-
-    //     $attendance_ids=$attendances->pluck('id');
-    //     $breakTimes=BreakTime::whereIn('attendance_id',$attendance_ids)->get();
-    
-    //     return view('user.attendanceList',compact('attendances','breakTimes','thisMonth'));
-    // }
 
 }

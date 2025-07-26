@@ -2,7 +2,7 @@
 
 @section('content')
 <div class="auth__content">
-    <h2 class="auth__title">ログイン</h2>
+    <h1 class="auth__title">ログイン</h1>
     @section('no-nav')
     @endsection
     <div class="login__content">

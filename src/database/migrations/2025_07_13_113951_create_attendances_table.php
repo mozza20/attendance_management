@@ -19,7 +19,7 @@ class CreateAttendancesTable extends Migration
             $table->date('date');
             $table->time('start_time');
             $table->time('finish_time')->nullable();
-            $table->time('work_total')->nullable();
+            $table->integer('work_total')->nullable();
             $table->foreignId('status_id')->constrained()->cascadeOnDelete();
             $table->string('remarks')->nullable();
             $table->timestamps();

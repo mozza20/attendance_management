@@ -6,8 +6,9 @@
 
 @section('content')
 <div class="content">
-    <h2 class="title">勤怠詳細</h2>
+    <h1 class="title">勤怠詳細</h1>
     <form class="" action="" method="POST">
+        @csrf
         <table class="attendance--table">
             <tr class="table--row">
                 <th class="table--header">名前</th>
@@ -31,7 +32,13 @@
             </tr>
             @foreach($breakTimes as $breakTime) 
             <tr class="table--row">
-                <th class="table--header">休憩</th>
+                <th class="table--header">
+                    @if($loop->iteration>1)    
+                        休憩{{$loop->iteration}}
+                    @else
+                        休憩
+                    @endif
+                </th>
                 <td class="table--data">
                     <input class="table--data__start" type="text" pattern="[0-2][0-9]:[0-5][0-9]" value="{{formatTime($breakTime->start_time)}}">
                     <p class="tilde">～</p>
@@ -39,6 +46,14 @@
                 </td>
             </tr>
             @endforeach
+            <tr class="table--row">
+                <th class="table--header">休憩{{$breakCount+1}}</th>
+                <td class="table--data">
+                    <input class="table--data__start" type="text" pattern="[0-2][0-9]:[0-5][0-9]">
+                    <p class="tilde">～</p>
+                    <input class="table--data__finish" type="text" pattern="[0-2][0-9]:[0-5][0-9]">
+                </td>
+            </tr>
             <tr class="table--row">
                 <th class="table--header">備考</th>
                 <td class="table--data">
