@@ -99,14 +99,18 @@ class UserController extends Controller
         $user_id=$user->id;
 
         //試行中
-        if($request->input('shift')==='back'){
-            $currentMonth-=1;
-        }elseif($request->input('shift')==='next'){
-            $currentMonth+=1;
+        $ym=$request->input('ym');
+        if($ym){
+            $currentYM = CarbonImmutable::createFromFormat('Y-m',$ym)->startOfMonth();
+        }else{
+            $currentYM=CarbonImmutable::now()->startOfMonth();
         }
-        $currentYM = CarbonImmutable::now()->startOfMonth();
-        $previousYM = $currentYM->subMonth();
-        $nextYM= $currentYM->addMonth();
+
+        if($request->input('shift')==='back'){
+            $currentYM=$currentYM->subMonth();
+        }elseif($request->input('shift')==='next'){
+            $currentYM=$currentYM->addMonth();
+        }
 
         $startOfMonth=$currentYM->startOfMonth();
         $endOfMonth=$currentYM->endOfMonth();
@@ -119,7 +123,12 @@ class UserController extends Controller
         $attendance_ids=$attendanceData->pluck('id');
         $breakTimes=BreakTime::whereIn('attendance_id',$attendance_ids)->get();
 
-        return view('user.attendanceList',['attendances'=>$attendanceData],compact('breakTimes','thisMonth'));
+        return view('user.attendanceList',[
+            'attendances' => $attendanceData,
+            'breakTimes' => $breakTimes,
+            'thisMonth' => $thisMonth,
+            'currentYM' => $currentYM->format('Y-m'),
+        ]);
     }
 
     public function show($attendance_id){

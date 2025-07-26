@@ -34,7 +34,8 @@ body {
 
 .previous-month,
 .next-month {
-    text-decoration: none;
+    border: none;
+    background: none;
     color: #737373;
     font-size: 16px;
     font-weight: bold;
@@ -94,7 +95,10 @@ body {
     text-align: center;
 }
 
-
 .table--row:first-of-type {
     border-bottom: 3px solid #E1E1E1;
+}
+
+.detail {
+    text-decoration: none;
 }

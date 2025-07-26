@@ -8,12 +8,11 @@
 <div class="content">
     <h2 class="title">勤怠一覧</h2>
 
-    <form class="select-month" action="" method="POST">
-        @csrf
+    <form class="select-month" action="" method="GET">
+        <input type="hidden" name="ym" value="{{ $currentYM }}">
         <button class="previous-month" name="shift" value="back">前月</button>
         <p class="current-month">{{$thisMonth}}</p>
         <button class="next-month" name="shift" value="next">翌月</button>
-
     </form>
     <table class="attendance--table">
         <tr class="table--row">
@@ -32,7 +31,7 @@
             <td class="data__others">
                 {{ gmdate('G:i', $attendance->breakTimes->sum('break_total')) }}
             </td>
-            <td class="data__others">{{formatTime($attendance->work_total)}}</td>
+            <td class="data__others">{{formatTotalTime($attendance->work_total)}}</td>
             <td class="data__others">
                 <a class="detail" href="{{route('attendanceDetail.show',$attendance->id)}}">詳細</a>
             </td>

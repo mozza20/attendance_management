@@ -11,6 +11,10 @@ function formatTime($time){
     return Carbon::parse($time)->format('H:i');
 }
 
+function formatTotalTime($time){
+    return Carbon::parse($time)->format('G:i');
+}
+
 function formatJapaneseYear($date){
     return Carbon::parse($date)->format('Y年');
 }
