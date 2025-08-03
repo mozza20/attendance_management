@@ -7,8 +7,9 @@
 @section('content')
 <div class="content">
     <h1 class="title">勤怠詳細</h1>
-    <form class="" action="" method="POST">
+    <form action="{{route('attendance.update', ['attendance_id' => $attendance->id])}}" method="POST">
         @csrf
+        @method('PUT')
         <table class="attendance--table">
             <tr class="table--row">
                 <th class="table--header">名前</th>
@@ -25,9 +26,9 @@
             <tr class="table--row">
                 <th class="table--header">出勤・退勤</th>
                 <td class="table--data">
-                    <input class="table--data__start" type="text" pattern="[0-2][0-9]:[0-5][0-9]" value="{{formatTime($attendance->start_time)}}">
+                    <input class="table--data__start" type="text" name="rev_start_time" pattern="[0-2][0-9]:[0-5][0-9]" value="{{formatTime($attendance->start_time)}}">
                     <p class="tilde">～</p>
-                    <input class="table--data__finish" type="text" pattern="[0-2][0-9]:[0-5][0-9]" value="{{formatTime($attendance->finish_time)}}">
+                    <input class="table--data__finish" type="text" pattern="[0-2][0-9]:[0-5][0-9]" name="rev_finish_time" value="{{formatTime($attendance->finish_time)}}">
                 </td>
             </tr>
             @foreach($breakTimes as $breakTime) 
@@ -40,24 +41,26 @@
                     @endif
                 </th>
                 <td class="table--data">
-                    <input class="table--data__start" type="text" pattern="[0-2][0-9]:[0-5][0-9]" value="{{formatTime($breakTime->start_time)}}">
+                    <input type="hidden" name="breaks[{{$loop->iteration-1}}][id]" value="{{ $breakTime->id }}">
+                    <input class="table--data__start" type="text" name="breaks[{{$loop->iteration-1}}][rev_start_time]" pattern="[0-2][0-9]:[0-5][0-9]" value="{{formatTime($breakTime->start_time)}}">
                     <p class="tilde">～</p>
-                    <input class="table--data__finish" type="text" pattern="[0-2][0-9]:[0-5][0-9]" value="{{formatTime($breakTime->end_time)}}">
+                    <input class="table--data__finish" type="text" name="breaks[{{$loop->iteration-1}}][rev_end_time]" pattern="[0-2][0-9]:[0-5][0-9]" value="{{formatTime($breakTime->end_time)}}">
                 </td>
             </tr>
             @endforeach
             <tr class="table--row">
                 <th class="table--header">休憩{{$breakCount+1}}</th>
                 <td class="table--data">
-                    <input class="table--data__start" type="text" pattern="[0-2][0-9]:[0-5][0-9]">
+                    <input type="hidden" name="breaks[{{$breakCount}}][id]" value="">
+                    <input class="table--data__start" type="text" name="breaks[{{$breakCount+1}}][rev_start_time]" pattern="[0-2][0-9]:[0-5][0-9]">
                     <p class="tilde">～</p>
-                    <input class="table--data__finish" type="text" pattern="[0-2][0-9]:[0-5][0-9]">
+                    <input class="table--data__finish" type="text" name="breaks[{{$breakCount+1}}][rev_end_time]" pattern="[0-2][0-9]:[0-5][0-9]">
                 </td>
             </tr>
             <tr class="table--row">
                 <th class="table--header">備考</th>
                 <td class="table--data">
-                    <textarea class="table--data__textarea" name="remark"></textarea>
+                    <textarea class="table--data__textarea" name="remarks"></textarea>
                 </td>
             </tr>
         </table>

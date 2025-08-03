@@ -46,7 +46,7 @@ Route::post('/email/verification-notification', function (Request $request) {
     return back()->with('message', '確認リンクを再送信しました。');
 })->middleware(['auth', 'throttle:6,1'])->name('verification.send');
 
-// ログイン必須画面
+// 一般ユーザー_ログイン必須画面
 Route::middleware('auth','verified')->group(function () {
     // 勤怠登録画面表示
     Route::get('/attendance',[UserController::class,'attendance'])->name('attendance.index');
@@ -60,10 +60,23 @@ Route::middleware('auth','verified')->group(function () {
     // 勤怠詳細表示
     Route::get('/attendance/detail/{attendance_id}',[UserController::class,'show'])->name('attendanceDetail.show');
 
+    //勤怠修正申請
+    Route::get('/attendance/detail/confirm/{attendance_id}',[UserContrller::class,'edit'])->name('attendanceDetail.edit');
+
+    //修正内容の保存
+    Route::put('/attendance/detail/{attendance_id}', [UserController::class, 'update'])
+    ->name('attendance.update');
 });
 
 //ログイン必須に入れる
+//申請一覧表示
+Route::get('/stamp_correction_request/list',[UserController::class,'submit']);
 
+
+//管理者_ログイン必須
+Route::middleware(['auth', 'verified', 'admin'])->group(function () {
+    Route::get('/admin', [AdminController::class, 'index'])->name('admin.dashboard');
+});
 
 // ログアウト
 Route::middleware('auth')->group(function () {

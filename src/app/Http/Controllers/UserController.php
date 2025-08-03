@@ -9,6 +9,8 @@ use App\Models\User;
 use App\Models\Status;
 use App\Models\Attendance;
 use App\Models\BreakTime;
+use App\Models\RevData;
+use App\Models\RevBreak;
 use Carbon\Carbon;
 use Carbon\CarbonImmutable;
 
@@ -142,4 +144,80 @@ class UserController extends Controller
         return view('user.attendanceDetail',compact('user','attendance','breakTimes','breakCount'));
     }
 
+    //承認待ち画面
+    public function edit(Request $request, $attendance_id){
+        $user=Auth::user();
+        $attendance=Attendance::where('user_id',$user_id)
+        ->findOrFail($attendance_id);
+
+        $revData=$request->only([
+            'id'=>$attendance->id,
+            'rev_start_time' => $request->input('rev_start_time'),
+            'rev_finish_time' => $request->input('rev_finish_time'),
+            'work_total' => $request->input('work_total'),
+            'remarks' => $request->input('remarks'),
+            'attendance_id' => $attendance->id,
+        ]);
+
+        $revBreaks = $request->input('breaks'); //配列で取得
+
+        return view('user.attendanceDetail',compact('user','revData','revBreaks'));
+    }
+
+    public function update(Request $request,$attendance_id){
+        $user =Auth::user();
+        $attendance=Attendance::where('user_id',$user->id)
+        ->findOrFail($attendance_id);
+
+        RevData::updateOrCreate(
+            ['attendance_id'=>$attendance->id],
+            [
+                'rev_start_time' => $request->input('rev_start_time'),
+                'rev_finish_time' => $request->input('rev_finish_time'),
+                'rev_work_total' => $request->input('work_total'),
+                'remarks' => $request->input('remarks'),
+            ]
+        );
+
+         RevBreak::where('attendance_id', $attendance->id)->delete();
+
+        $breaks = $request->input('breaks', []);
+        foreach ($breaks as $breakInput) {
+            //休憩の追加
+            if (!empty($breakInput['rev_start_time']) && !empty($breakInput['rev_end_time'])) {
+                $start = Carbon::parse($breakInput['rev_start_time']);
+                $end = Carbon::parse($breakInput['rev_end_time']);
+                RevBreak::create([
+                    'attendance_id' => $attendance->id,
+                    'break_time_id' => $breakInput['id'] ?? null, 
+                    'rev_start_time' => $start,
+                    'rev_end_time' => $end,
+                    'rev_break_total' => $end->diffInMinutes($start),
+                ]);
+            }
+        }
+
+        return redirect()->route('attendance.update', ['attendance_id' => $attendance_id]);
+        
+    }
+
+    public function submit(Request $request, $attendance_id){
+        $user=Auth::user();
+        $attendance=Attendance::where('user_id',$user->id);
+
+        $revData=RevData::where('user_id',$user->id)
+        ->findOrFail($attendance_id);
+        $revBreak=RevBreak::where('user_id',$user->id)
+        ->findOrFail($attendance_id);
+
+        if($request->$tab==='accepted'){
+            $acceptedId=Attendance::where('accepted','1')->pluck('attendance_id');
+            $submittedData=Attendance::whereIn('id',$acceptedId)->get();
+        }else{
+            $pendingId=Attendance::where('accepted','0')->pluck('attendance_id');
+            $submittedData=Attendance::whereIn('id',$pendingId)->get();
+        }
+
+        return view('request',compact('user','attendance','revData','revBreak','submittedData'));
+    }
 }
