@@ -22,6 +22,7 @@ class CreateAttendancesTable extends Migration
             $table->integer('work_total')->nullable();
             $table->foreignId('status_id')->constrained()->cascadeOnDelete();
             $table->string('remarks')->nullable();
+            $table->tinyInteger('accepted')->default(0);
             $table->timestamps();
         });
     }

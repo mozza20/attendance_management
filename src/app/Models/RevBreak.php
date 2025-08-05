@@ -18,11 +18,12 @@ class RevBreak extends Model
         'rev_break_total'
     ];
 
-    public function revAttendance(){
+    public function revData(){
         return $this->belongsTo(Attendance::class);
     }
 
-    public function revBreak(){
-        return $this->belongsTo(BreakTime::class);
+    public function attendance() {
+        return $this->belongsTo(Attendance::class);
     }
+
 }

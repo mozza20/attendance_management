@@ -16,7 +16,7 @@ class IsAdmin
      */
     public function handle(Request $request, Closure $next)
     {
-        if(Auth::check() && Auth::user()->isAdmin === '1'){
+        if(Auth::check() && Auth::user()->isAdmin === 'true'){
             return $next($request);
         }
         abort(403, '管理者権限が必要です。');

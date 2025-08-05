@@ -17,7 +17,8 @@ class Attendance extends Model
         'finish_time',
         'work_total',
         'status_id',
-        'remarks'
+        'remarks',
+        'accepted',
     ];
 
     public function user(){
@@ -31,4 +32,9 @@ class Attendance extends Model
     public function status(){
         return $this->belongsTo(Status::class);
     }
+
+    public function revBreaks() {
+        return $this->hasMany(RevBreak::class);
+    }
+
 }

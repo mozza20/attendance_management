@@ -61,11 +61,9 @@ Route::middleware('auth','verified')->group(function () {
     Route::get('/attendance/detail/{attendance_id}',[UserController::class,'show'])->name('attendanceDetail.show');
 
     //勤怠修正申請
-    Route::get('/attendance/detail/confirm/{attendance_id}',[UserContrller::class,'edit'])->name('attendanceDetail.edit');
+    Route::post('/attendance/detail/confirm/{attendance_id}',[UserController::class,'edit'])->name('attendanceDetail.confirm');
 
-    //修正内容の保存
-    Route::put('/attendance/detail/{attendance_id}', [UserController::class, 'update'])
-    ->name('attendance.update');
+
 });
 
 //ログイン必須に入れる
