@@ -56,7 +56,7 @@ body {
 .tilde {
     display: inline-block;
     width: 90px;
-    margin: 0 auto;
+    margin: 16px 0 16px 10px;
     text-align: center;
 }
 
@@ -82,5 +82,32 @@ body {
     color: #ffffff;
     font-size: 22px;
     font-weight: bold;
+    letter-spacing: 0.15em;
+}
+
+.table--data-p {
+    display: flex;
+    align-items: center;
+    height: 80px;
+    color: #000000;
+    font-family: 'Inter';
+    font-size: 16px;
+    font-weight: bold;
+    letter-spacing: 0.15em;
+}
+
+.table--data__start-p,
+.table--data__finish-p {
+    border: none;
+    width: 103px;
+    text-align: center;
+}
+
+.status__message {
+    width: 900px;
+    text-align: end;
+    color: #FF000080;
+    font-size: 18px;
+    font-weight: 800;
     letter-spacing: 0.15em;
 }

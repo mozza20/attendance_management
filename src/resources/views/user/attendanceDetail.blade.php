@@ -84,10 +84,10 @@
             </tr>
             <tr class="table--row">
                 <th class="table--header">出勤・退勤</th>
-                <td class="table--data">
-                    <p class="table--data__start">{{formatTime($revData['rev_start_time'])}}</p>
+                <td class="table--data-p">
+                    <p class="table--data__start-p">{{formatTime($revData['rev_start_time'])}}</p>
                     <p class="tilde">～</p>
-                    <p class="table--data__finish">{{formatTime($revData['rev_finish_time'])}}</p>
+                    <p class="table--data__finish-p">{{formatTime($revData['rev_finish_time'])}}</p>
                 </td>
             </tr>
             @foreach($revBreaks as $index=> $revBreak) 
@@ -100,10 +100,10 @@
                                 休憩
                             @endif
                         </th>
-                        <td class="table--data">
-                            <p class="table--data__start">{{formatTime($revBreak['rev_start_time'])}}</p>
+                        <td class="table--data-p">
+                            <p class="table--data__start-p">{{formatTime($revBreak['rev_start_time'])}}</p>
                             <p class="tilde">～</p>
-                            <p class="table--data__finish">{{formatTime($revBreak['rev_end_time'])}}</p>
+                            <p class="table--data__finish-p">{{formatTime($revBreak['rev_end_time'])}}</p>
                         </td>
                     </tr>
                 @endif
@@ -113,7 +113,7 @@
                 <td class="table--data">{{$revData['remarks']}}</td>
             </tr>
         </table>
-        <p class="">*承認待ちのため修正はできません。</p>
+        <p class="status__message">*承認待ちのため修正はできません。</p>
     @endif
 </div>
 @endsection
