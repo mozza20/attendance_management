@@ -10,7 +10,7 @@
     @if($attendance->accepted === 0) {{--未申請--}}
         <form action="{{route('attendanceDetail.confirm', ['attendance_id' => $attendance->id])}}" method="POST">
             @csrf
-            <table class="attendance--table">
+            <table class="detail--table">
                 <tr class="table--row">
                     <th class="table--header">名前</th>
                     <td class="table--data">
@@ -69,7 +69,7 @@
             </div>
         </form>
     @elseif($attendance->accepted === 1) {{--申請済み(承認待ち)--}}
-        <table class="attendance--table">
+        <table class="detail--table">
             <tr class="table--row">
                 <th class="table--header">名前</th>
                 <td class="table--data">

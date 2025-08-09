@@ -27,5 +27,5 @@ function formatJapaneseDay($date){
 
 //申請一覧
 function formatDate($date){
-    return Carbon::parse($date)->format('yyyy/m/d');
+    return Carbon::parse($date)->format('Y/m/d');
 }

@@ -68,13 +68,13 @@ Route::middleware('auth','verified')->group(function () {
 
 //ログイン必須に入れる
 //申請一覧表示
-Route::get('/stamp_correction_request/list',[UserController::class,'submit']);
+Route::get('/stamp_correction_request/list',[UserController::class,'showRequest'])->name('requestLists');
 
 
 //管理者_ログイン必須
-Route::middleware(['auth', 'verified', 'admin'])->group(function () {
-    Route::get('/admin', [AdminController::class, 'index'])->name('admin.dashboard');
-});
+// Route::middleware(['auth', 'verified', 'admin'])->group(function () {
+//     Route::get('/admin', [AdminController::class, 'index'])->name('admin.dashboard');
+// });
 
 // ログアウト
 Route::middleware('auth')->group(function () {

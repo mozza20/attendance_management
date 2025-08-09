@@ -37,4 +37,10 @@ class Attendance extends Model
         return $this->hasMany(RevBreak::class);
     }
 
+    public function revData()
+    {
+        return $this->hasOne(RevData::class);
+    }
+
+
 }

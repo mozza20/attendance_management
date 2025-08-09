@@ -1,6 +1,7 @@
 @extends('layouts.app')
 
 @section('css')
+<link rel="stylesheet" href="{{ asset('css/lists.css') }}">
 <link rel="stylesheet" href="{{ asset('css/attendanceList.css') }}">
 @endsection
 
@@ -14,6 +15,7 @@
         <p class="current-month">{{$thisMonth}}</p>
         <button class="next-month" name="shift" value="next">翌月</button>
     </form>
+    
     <table class="attendance--table">
         <tr class="table--row">
             <th class=header__date>日付</th>

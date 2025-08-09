@@ -148,8 +148,7 @@ class UserController extends Controller
     //勤怠の申請
     public function edit(Request $request, $attendance_id){
         $user=Auth::user();
-        $user_id=$user->id;
-        $attendance=Attendance::where('user_id',$user_id)
+        $attendance=Attendance::where('user_id',$user->id)
         ->findOrFail($attendance_id);
         $breakTimes=BreakTime::where('attendance_id',$attendance_id)->get();
 
@@ -163,7 +162,7 @@ class UserController extends Controller
         $finish=Carbon::parse($rev_finish);
         $workSeconds=$finish->diffInSeconds($start);
 
-        //休憩時間
+        //休憩時間の計算
         $breakSeconds=0;
         foreach($revBreaks as $revBreak){
             if (!empty($revBreak['rev_start_time']) && !empty($revBreak['rev_end_time'])) {
@@ -175,41 +174,64 @@ class UserController extends Controller
 
         $rev_work_total=max($workSeconds-$breakSeconds, 0);
 
-        $revData=[
-            'id'=>$attendance->id,
-            'rev_start_time' => $rev_start,
-            'rev_finish_time' => $rev_finish,
-            'rev_work_total' => $rev_work_total,
-            'remarks' => $request->input('remarks',$attendance->remarks),
-            'attendance_id' => $attendance->id,
-        ];
+        //RevData保存
+        $revData=RevData::updateOrCreate(
+            ['attendance_id'=>$attendance->id],
+            [
+                'rev_start_time' => $rev_start,
+                'rev_finish_time' => $rev_finish,
+                'rev_work_total' => $rev_work_total,
+                'remarks' => $request->input('remarks',$attendance->remarks),
+            ]);
 
-        $breakCount=$attendance->revBreaks()->count();
+        // RevBreaks 保存
+        foreach ($revBreaks as $revBreak) {
+            if (!empty($revBreak['id']) && !empty($revBreak['rev_start_time']) && !empty($revBreak['rev_end_time'])) {
+                $breakTimeId = $revBreak['id'];
 
+                RevBreak::updateOrCreate(
+                    ['id'=>$revBreak['id']],
+                    [
+                        'attendance_id' => $attendance->id,
+                        'break_time_id' => $breakTimeId,
+                        'rev_start_time' => $revBreak['rev_start_time'],
+                        'rev_end_time' => $revBreak['rev_end_time'],
+                        'rev_break_total'=>$breakSeconds,
+                    ]);
+            }
+        }
+        $revBreaks=RevBreak::where('attendance_id', $attendance->id)->get();
+
+        //勤怠ステータス更新
         $attendance->accepted = 1;
         $attendance->save();
+
+        $breakCount=$attendance->revBreaks()->count();
 
         return view('user.attendanceDetail',compact('user','attendance','breakTimes','revData','revBreaks','breakCount'));
     }
 
     //申請状況の表示
-    public function submit(Request $request, $attendance_id){
+    public function showRequest(Request $request){
         $user=Auth::user();
-        $attendance=Attendance::where('user_id',$user->id);
 
-        $revData=RevData::where('user_id',$user->id)
-        ->findOrFail($attendance_id);
-        $revBreaks=RevBreak::where('user_id',$user->id)
-        ->findOrFail($attendance_id);
-
-        if($request->$tab==='accepted'){
-            $acceptedId=Attendance::where('accepted','2')->pluck('attendance_id');
-            $submittedData=Attendance::whereIn('id',$acceptedId)->get();
+        $tab=$request->input('tab','pending');
+        
+        if($tab==='accepted'){
+            //承認済みの時
+            $submittedData=Attendance::where('user_id',$user->id)->where('accepted','2')->get();
+            $requestSt="承認済み";
         }else{
-            $pendingId=Attendance::where('accepted','1')->pluck('attendance_id');
-            $submittedData=Attendance::whereIn('id',$pendingId)->get();
+            //承認待ちの時
+            $submittedData=Attendance::where('user_id',$user->id)->where('accepted','1')->get();
+            $requestSt="承認待ち";
         }
 
-        return view('request',compact('user','attendance','revData','revBreaks','submittedData'));
+        $attendanceIds=$submittedData->pluck('id');
+        
+        $revData=RevData::whereIn('attendance_id', $attendanceIds)->get();
+        $revBreaks=RevBreak::whereIn('attendance_id', $attendanceIds)->get();
+
+        return view('user.request',compact('user','submittedData','revData','revBreaks','requestSt'));
     }
 }

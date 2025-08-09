@@ -1,0 +1,38 @@
+/*attendanceList, request 共通スタイル*/
+
+body {
+    background-color: #F0EFF2;
+    font-family: Inter;
+}
+
+.content {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin: 36px auto;
+    width: 916px;
+}
+
+.attendance--table {
+    width: 900px;
+    margin-top: 45px;
+    background-color: #ffffff;
+    border-radius: 10px;
+    color: #737373;
+    font-size: 16px;
+    font-weight: bold;
+    letter-spacing: 0.15em;
+}
+
+.table--row {
+    height: 45px;
+    border-bottom: 2px solid #E1E1E1;
+}
+
+.table--row:first-of-type {
+    border-bottom: 3px solid #E1E1E1;
+}
+
+.detail {
+    text-decoration: none;
+}
