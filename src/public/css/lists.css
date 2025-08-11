@@ -13,7 +13,8 @@ body {
     width: 916px;
 }
 
-.attendance--table {
+.attendance--table,
+.staff--table {
     width: 900px;
     margin-top: 45px;
     background-color: #ffffff;
@@ -35,4 +36,15 @@ body {
 
 .detail {
     text-decoration: none;
+    color: #000000;
+}
+
+.staff--table .table--row>th:first-child,
+.staff--table .table--row>td:first-child {
+    padding-left: 70px;
+}
+
+.staff--table .table--row>th:last-child,
+.staff--table .table--row>td:last-child {
+    padding-right: 70px;
 }

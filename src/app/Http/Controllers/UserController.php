@@ -21,6 +21,7 @@ use DateTime;
 
 class UserController extends Controller
 {
+    //勤怠登録画面表示
     public function attendance(){
         $now=CarbonImmutable::now();
         $date=$now->isoFormat('Y年M月DD日(ddd)');
@@ -35,6 +36,7 @@ class UserController extends Controller
         return view('user.attendance',compact('date','time','attendance','status_id'));
     }
 
+    //勤怠登録
     public function input(Request $request){
         $user=Auth::user();
         $user_id=$user->id;
@@ -96,7 +98,8 @@ class UserController extends Controller
         return back();
     }
 
-    public function index(Request $request){
+    //勤怠一覧表示
+     public function index(Request $request){
         $user=Auth::user();
         $user_id=$user->id;
 
@@ -142,7 +145,14 @@ class UserController extends Controller
 
         $breakCount=$attendance->breakTimes()->count();
 
-        return view('user.attendanceDetail',compact('user','attendance','breakTimes','breakCount'));
+        $revData=optional(RevData::where('attendance_id', $attendance_id)->first())->toArray();
+        $revBreaks=optional(RevBreak::where('attendance_id', $attendance_id)->get())->toArray();
+
+        $revBreaks=collect($revBreaks)->filter(function($revBreak){
+            return !empty($revBreak['rev_start_time']) && !empty($revBreak['rev_end_time']);
+        });
+
+        return view('user.attendanceDetail',compact('user','attendance','breakTimes','breakCount','revData','revBreaks'));
     }
 
     //勤怠の申請
@@ -211,27 +221,4 @@ class UserController extends Controller
         return view('user.attendanceDetail',compact('user','attendance','breakTimes','revData','revBreaks','breakCount'));
     }
 
-    //申請状況の表示
-    public function showRequest(Request $request){
-        $user=Auth::user();
-
-        $tab=$request->input('tab','pending');
-        
-        if($tab==='accepted'){
-            //承認済みの時
-            $submittedData=Attendance::where('user_id',$user->id)->where('accepted','2')->get();
-            $requestSt="承認済み";
-        }else{
-            //承認待ちの時
-            $submittedData=Attendance::where('user_id',$user->id)->where('accepted','1')->get();
-            $requestSt="承認待ち";
-        }
-
-        $attendanceIds=$submittedData->pluck('id');
-        
-        $revData=RevData::whereIn('attendance_id', $attendanceIds)->get();
-        $revBreaks=RevBreak::whereIn('attendance_id', $attendanceIds)->get();
-
-        return view('user.request',compact('user','submittedData','revData','revBreaks','requestSt'));
-    }
 }

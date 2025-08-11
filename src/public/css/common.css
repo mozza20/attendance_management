@@ -119,10 +119,10 @@ html {
 }
 
 .under-button__link {
+    display: block;
     text-decoration: none;
     color: #0073CC;
     font-size: 20px;
-
 }
 
 button,

@@ -7,6 +7,7 @@
 @section('content')
 <div class="content">
     <h1 class="title">勤怠詳細</h1>
+    
     @if($attendance->accepted === 0) {{--未申請--}}
         <form action="{{route('attendanceDetail.confirm', ['attendance_id' => $attendance->id])}}" method="POST">
             @csrf
@@ -20,7 +21,7 @@
                     <th class="table--header">日付</th>
                     <td class="table--data">
                         <p class="table--data__year">{{formatJapaneseYear($attendance->date)}}</p>
-                        <p class="table--data__day">{{formatJapaneseDay($attendance->date)}}</p>
+                        <p class="table--data__day">{{formatJapaneseMD($attendance->date)}}</p>
                     </td>
                 </tr>
                 <tr class="table--row">
@@ -34,8 +35,8 @@
                 @foreach($breakTimes as $index=>$breakTime) 
                 <tr class="table--row">
                     <th class="table--header">
-                        @if($index>1)    
-                            休憩{{$index}}
+                        @if($index>0)    
+                            休憩{{$index+1}}
                         @else
                             休憩
                         @endif
@@ -49,7 +50,13 @@
                 </tr>
                 @endforeach
                 <tr class="table--row">
-                    <th class="table--header">休憩{{$breakCount+1}}</th>
+                    <th class="table--header">
+                        @if($breakCount>0)    
+                            休憩{{$breakCount+1}}
+                        @else
+                            休憩
+                        @endif
+                    </th>
                     <td class="table--data">
                         <input type="hidden" name="breaks[{{$breakCount}}][id]" value="">
                         <input class="table--data__start" type="text" name="breaks[{{$breakCount+1}}][rev_start_time]" pattern="[0-2][0-9]:[0-5][0-9]">
@@ -79,7 +86,7 @@
                 <th class="table--header">日付</th>
                 <td class="table--data">
                     <p class="table--data__year">{{formatJapaneseYear($attendance->date)}}</p>
-                    <p class="table--data__day">{{formatJapaneseDay($attendance->date)}}</p>
+                    <p class="table--data__day">{{formatJapaneseMD($attendance->date)}}</p>
                 </td>
             </tr>
             <tr class="table--row">
@@ -91,22 +98,20 @@
                 </td>
             </tr>
             @foreach($revBreaks as $index=> $revBreak) 
-                @if(!empty($revBreak['rev_start_time']) && !empty($revBreak['rev_end_time']))
-                    <tr class="table--row">
-                        <th class="table--header">
-                            @if($index>1)    
-                                休憩{{$index}}
-                            @else
-                                休憩
-                            @endif
-                        </th>
-                        <td class="table--data-p">
-                            <p class="table--data__start-p">{{formatTime($revBreak['rev_start_time'])}}</p>
-                            <p class="tilde">～</p>
-                            <p class="table--data__finish-p">{{formatTime($revBreak['rev_end_time'])}}</p>
-                        </td>
-                    </tr>
-                @endif
+                <tr class="table--row">
+                    <th class="table--header">
+                        @if($index>0)    
+                            休憩{{$index+1}}
+                        @else
+                            休憩
+                        @endif
+                    </th>
+                    <td class="table--data-p">
+                        <p class="table--data__start-p">{{formatTime($revBreak['rev_start_time'])}}</p>
+                        <p class="tilde">～</p>
+                        <p class="table--data__finish-p">{{formatTime($revBreak['rev_end_time'])}}</p>
+                    </td>
+                </tr>
             @endforeach
             <tr class="table--row">
                 <th class="table--header">備考</th>

@@ -15,12 +15,26 @@
 <body>
     <header class="header">
         <div class="header__inner">	
-            <a class="header__logo" href="/attendance">
+        @if(Auth::check() && Auth::user()->isAdmin)
+             <a class="header__logo" href="{{route('dailyAttendanceList')}}">
                 <img src="{{asset('img/logo.svg')}}" alt="COACHTECH">
             </a>
             @if(!View::hasSection('no-nav'))
-            
-                @if(Auth::check())
+            <div class="header-nav__buttons">
+                <a class="page-link" href="{{route('dailyAttendanceList')}}">勤怠一覧</a>
+                <a class="page-link" href="{{route('staffList')}}">スタッフ一覧</a>
+                <a class="page-link" href="/admin/requests">申請一覧</a>
+                <form class="logout-button" action="{{route('logout')}}" method=POST>
+                    @csrf
+                    <button type="submit" name="logout">ログアウト</button>
+                </form>
+            </div>
+            @endif
+        @else
+            <a class="header__logo" href="{{('user.attendance')}}">
+                <img src="{{asset('img/logo.svg')}}" alt="COACHTECH">
+            </a>
+            @if(!View::hasSection('no-nav'))
                 <div class="header-nav__buttons">
                     <a class="page-link" href="{{route('attendance.index')}}">勤怠</a>
                     <a class="page-link" href="{{route('user.attendanceList')}}">勤怠一覧</a>
@@ -30,18 +44,8 @@
                         <button type="submit" name="logout">ログアウト</button>
                     </form>
                 </div>
-                @else
-                <div class="header-nav__buttons">
-                    <a class="page-link" href="/attendance/list">勤怠一覧</a>
-                    <a class="page-link" href="/attendance">スタッフ一覧</a>
-                    <a class="page-link" href="/admin/requests">申請一覧</a>
-                    <form class="logout-button" action="{{route('logout')}}" method=POST>
-                        @csrf
-                        <button type="submit" name="logout">ログアウト</button>
-                    </form>
-                </div>
-                @endif
             @endif
+        @endif
         </div>
     </header>
     <main>

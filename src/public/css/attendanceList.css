@@ -1,5 +1,5 @@
-
-.select-month {
+.select-month,
+.select-date {
     display: flex;
     justify-content: space-between;
     width: 900px;
@@ -10,7 +10,9 @@
 }
 
 .previous-month,
-.next-month {
+.next-month,
+.day-before,
+.next-day {
     border: none;
     background: none;
     color: #737373;
@@ -20,7 +22,9 @@
 }
 
 .previous-month::before,
-.next-month::after {
+.next-month::after,
+.day-before::before,
+.next-day::after {
     content: " ";
     width: 40px;
     height: 15px;
@@ -33,17 +37,20 @@
     opacity: 0.3;
 }
 
-.next-month::after {
+.next-month::after,
+.next-day::after {
     transform: scaleX(-1);
 }
 
-.current-month {
+.current-month,
+.current-date {
     margin: 0;
     font-size: 20px;
     font-weight: bold;
 }
 
-.current-month::before {
+.current-month::before,
+.current-date::before {
     content: " ";
     width: 40px;
     height: 25px;

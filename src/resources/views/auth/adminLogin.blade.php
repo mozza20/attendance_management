@@ -2,11 +2,11 @@
 
 @section('content')
 <div class="auth__content">
-    <h1 class="auth__title">ログイン</h1>
+    <h1 class="auth__title">管理者ログイン</h1>
     @section('no-nav')
     @endsection
     <div class="login__content">
-        <form action="{{route('login')}}" method="POST">
+        <form action="{{route('adminLogin')}}" method="POST">
             @csrf
             <div class="form-area">
                 <label class="form__label" for="email">メールアドレス</label>
@@ -29,9 +29,9 @@
                     @endif
                 </p>
             </div>
-            <button class="form__button">ログインする</button>
-            <a class="under-button__link" href="{{route('auth.register')}}">会員登録はこちら</a>
-            <a class="under-button__link" href="{{route('auth.adminLogin')}}">管理者はこちら</a>
+            <button class="form__button">管理者ログインする</button>
+            <a class="under-button__link" href="{{route('auth.login')}}">スタッフはこちら</a>
+            
         </form>
     </div>
 </div>

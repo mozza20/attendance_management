@@ -16,16 +16,20 @@ function formatTotalTime($time){
     return Carbon::parse($time)->format('G:i');
 }
 
+function formatJapaneseYMD($date){
+    return Carbon::parse($date)->format('Y年n月j日');
+}
+
 //勤怠詳細
 function formatJapaneseYear($date){
     return Carbon::parse($date)->format('Y年');
 }
 
-function formatJapaneseDay($date){
+function formatJapaneseMD($date){
     return Carbon::parse($date)->format('n月j日');
 }
 
-//申請一覧
+//申請一覧・勤怠一覧(管理者)
 function formatDate($date){
     return Carbon::parse($date)->format('Y/m/d');
 }
