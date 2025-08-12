@@ -64,7 +64,7 @@ Route::middleware('auth','verified','user')->group(function () {
     Route::post('/attendance',[UserController::class,'input'])->name('attendance.input');
 
     //勤怠一覧表示
-    Route::get('/attendance/list',[UserController::class,'index'])->name('user.attendanceList');
+    Route::get('/attendance/list',[UserController::class,'index'])->name('attendanceList');
 
     //勤怠修正申請
     Route::post('/attendance/detail/confirm/{attendance_id}',[UserController::class,'edit'])->name('attendanceDetail.confirm');

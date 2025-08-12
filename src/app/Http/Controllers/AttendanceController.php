@@ -39,19 +39,29 @@ class AttendanceController extends Controller
         return view('common.attendanceDetail',compact('user','attendance','breakTimes','breakCount','revData','revBreaks'));
     }
 
-    //申請の表示
+    //申請一覧の表示
     public function showRequest(Request $request){
-        $user=Auth::user();
+        $user_id=Auth::id();
+        
+        if(!Auth::user()->isAdmin){
+            //一般ユーザのとき、自分の勤怠データを取得
+            $attendances=Attendance::where('user_id',$user_id)->get();
+        }else{
+            //管理者のとき、全員の勤怠データを取得
+            $attendances=Attendance::with('user')->get();
+        }
+
+        $userIds=$attendances->pluck('user_id');
 
         $tab=$request->input('tab','pending');
         
         if($tab==='accepted'){
             //承認済みの時
-            $submittedData=Attendance::where('user_id',$user->id)->where('accepted','2')->get();
+            $submittedData=Attendance::whereIn('user_id',$userIds)->where('accepted','2')->get();
             $requestSt="承認済み";
         }else{
             //承認待ちの時
-            $submittedData=Attendance::where('user_id',$user->id)->where('accepted','1')->get();
+            $submittedData=$attendances->where('accepted','1');
             $requestSt="承認待ち";
         }
 
@@ -60,6 +70,6 @@ class AttendanceController extends Controller
         $revData=RevData::whereIn('attendance_id', $attendanceIds)->get();
         $revBreaks=RevBreak::whereIn('attendance_id', $attendanceIds)->get();
 
-        return view('common.request',compact('user','submittedData','revData','revBreaks','requestSt'));
+        return view('common.request',compact('userIds','user_id','submittedData','revData','revBreaks','requestSt'));
     }
 }

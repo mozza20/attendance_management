@@ -34,13 +34,14 @@ class AuthController extends Controller
         return redirect('/attendance');
     }
 
-    // ログイン画面の表示(一般ユーザー)
+    //一般ユーザー
+
+    // ログイン画面の表示
     public function showLoginForm(){
         return view('auth.login');
     }
 
-
-    //ログインボタン→勤怠登録画面へ
+    //ログイン→勤怠登録画面へ
     public function login(LoginRequest $request){
         $credentials = $request->only('email', 'password');
 
@@ -62,12 +63,14 @@ class AuthController extends Controller
         ])->withInput();
     }
 
+    //管理者
     
-    // ログイン画面の表示(管理者)
+    // ログイン画面の表示
     public function showAdminLoginForm(){
         return view('auth.adminLogin');
     }
 
+    //ログイン→勤怠一覧(日次)
     public function adminLogin(LoginRequest $request){
         $credentials = $request->only('email', 'password');
 

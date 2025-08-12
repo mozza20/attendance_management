@@ -23,7 +23,7 @@
             <div class="header-nav__buttons">
                 <a class="page-link" href="{{route('dailyAttendanceList')}}">勤怠一覧</a>
                 <a class="page-link" href="{{route('staffList')}}">スタッフ一覧</a>
-                <a class="page-link" href="/admin/requests">申請一覧</a>
+                <a class="page-link" href="{{route('requestLists')}}">申請一覧</a>
                 <form class="logout-button" action="{{route('logout')}}" method=POST>
                     @csrf
                     <button type="submit" name="logout">ログアウト</button>
@@ -37,7 +37,7 @@
             @if(!View::hasSection('no-nav'))
                 <div class="header-nav__buttons">
                     <a class="page-link" href="{{route('attendance.index')}}">勤怠</a>
-                    <a class="page-link" href="{{route('user.attendanceList')}}">勤怠一覧</a>
+                    <a class="page-link" href="{{route('attendanceList')}}">勤怠一覧</a>
                     <a class="page-link" href="{{route('requestLists')}}">申請</a>
                     <form class="logout-button" action="{{route('logout')}}" method=POST>
                         @csrf

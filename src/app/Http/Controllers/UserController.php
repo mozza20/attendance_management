@@ -152,7 +152,7 @@ class UserController extends Controller
             return !empty($revBreak['rev_start_time']) && !empty($revBreak['rev_end_time']);
         });
 
-        return view('user.attendanceDetail',compact('user','attendance','breakTimes','breakCount','revData','revBreaks'));
+        return view('common.attendanceDetail',compact('user','attendance','breakTimes','breakCount','revData','revBreaks'));
     }
 
     //勤怠の申請
@@ -218,7 +218,7 @@ class UserController extends Controller
 
         $breakCount=$attendance->revBreaks()->count();
 
-        return view('user.attendanceDetail',compact('user','attendance','breakTimes','revData','revBreaks','breakCount'));
+        return view('common.attendanceDetail',compact('user','attendance','breakTimes','revData','revBreaks','breakCount'));
     }
 
 }
