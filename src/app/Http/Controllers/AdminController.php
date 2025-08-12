@@ -84,6 +84,7 @@ class AdminController extends Controller
 
         return view('user.attendanceList',[
             'user' => $user,
+            'user_id' => $user_id,
             'attendances' => $attendanceData,
             'breakTimes' => $breakTimes,
             'thisMonth' => $thisMonth,

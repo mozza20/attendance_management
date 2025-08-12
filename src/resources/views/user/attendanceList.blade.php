@@ -44,5 +44,10 @@
         </tr>
         @endforeach
     </table>
+    @if(Auth::user()->isAdmin)
+        <form class="form--button" action="{{route('downloadCsv', $user_id)}}">
+            <button class="form--button__output" type="submit">CSV出力</button>
+        </form>
+    @endif
 </div>
 @endsection

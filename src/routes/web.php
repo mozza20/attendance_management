@@ -7,6 +7,7 @@ use App\Http\Middleware\IsUser;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AttendanceController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\CsvDownloadController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\MailTestController; // メール認証用
 
@@ -91,6 +92,9 @@ Route::middleware(['auth', 'verified', 'admin'])->group(function () {
 
     //勤怠一覧表示(スタッフ別)
     Route::get('/admin/users/{user_id}/attendances',[AdminController::class,'staffShow'])->name('user.attendanceList');
+
+    //CSVダウンロード
+    Route::get('/csv_download/{user_id}',[CsvDownloadController::class,'downloadCsv'])->name('downloadCsv');
 });
 
 

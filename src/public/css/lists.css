@@ -48,3 +48,20 @@ body {
 .staff--table .table--row>td:last-child {
     padding-right: 70px;
 }
+
+.form--button {
+    width: 900px;
+    margin-top: 50px;
+    text-align: right;
+}
+
+.form--button__output {
+    height: 50px;
+    padding: 0 35px;
+    background-color: #000000;
+    border-radius: 5px;
+    color: #ffffff;
+    font-size: 22px;
+    font-weight: bold;
+    letter-spacing: 0.15em;
+}
