@@ -31,7 +31,7 @@
                 <td class="table--data">{{optional($attendance->revData)->remarks}}</td>
                 <td class="table--data">{{formatDate($attendance->updated_at)}}</td>
                 <td class="table--data">
-                    <a class="detail" href="{{route('attendanceDetail.show',$attendance->id)}}">詳細</a>
+                    <a class="detail" href="{{route('requestDetail.show',$attendance->id)}}">詳細</a>
                 </td>
             </tr>
         @endforeach

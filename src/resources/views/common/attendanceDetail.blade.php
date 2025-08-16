@@ -8,7 +8,8 @@
 <div class="content">
     <h1 class="title">勤怠詳細</h1>
     
-    @if($attendance->accepted === 0) {{--未申請--}}
+    {{--未申請--}}
+    @if($attendance->accepted === 0)
         <form action="{{route('attendanceDetail.confirm', ['attendance_id' => $attendance->id])}}" method="POST">
             @csrf
             <table class="detail--table">
@@ -75,7 +76,9 @@
                 <button class="form--button__submit" type="submit">修正</button>
             </div>
         </form>
-    @elseif($attendance->accepted === 1) {{--申請済み(承認待ち)--}}
+
+    {{--申請済み(承認待ち)--}}
+    @elseif($attendance->accepted === 1)
         <table class="detail--table">
             <tr class="table--row">
                 <th class="table--header">名前</th>
@@ -118,7 +121,7 @@
                 <td class="table--data">{{$revData['remarks']}}</td>
             </tr>
         </table>
-        <p class="status__message">*承認待ちのため修正はできません。</p>
+            <p class="status__message">*承認待ちのため修正はできません。</p>
     @endif
 </div>
 @endsection

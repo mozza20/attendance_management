@@ -91,10 +91,19 @@ Route::middleware(['auth', 'verified', 'admin'])->group(function () {
     Route::get('/admin/users',[AdminController::class,'staffIndex'])->name('staffList');
 
     //勤怠一覧表示(スタッフ別)
-    Route::get('/admin/users/{user_id}/attendances',[AdminController::class,'staffShow'])->name('user.attendanceList');
+    Route::get('/admin/users/{user_id}/attendances',[AdminController::class,'showStaff'])->name('user.attendanceList');
 
     //CSVダウンロード
     Route::get('/csv_download/{user_id}',[CsvDownloadController::class,'downloadCsv'])->name('downloadCsv');
+
+    //承認用_勤怠詳細表示
+    Route::get('/admin/requests/{attendance_id}',[AdminController::class, 'showDetail'])->name('requestDetail.show');
+
+    //承認処理
+    Route::post('/admin/requests/{attendance_id}',[AdminController::class, 'update'])->name('attendanceDetail.update');
+
+    //勤怠詳細表示
+    // Route::get('/admin/requests/{attendance_id}',[AdminController::class, 'acceptedIndex'])->name('acceptedDetail.show');
 });
 
 
