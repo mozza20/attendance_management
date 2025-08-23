@@ -5,7 +5,7 @@
 <link rel="stylesheet" href="{{ asset('css/attendanceList.css') }}">
 @endsection
 
-@section('content')
+@section('content') {{--スタッフ別勤怠一覧--}}
 <div class="content">
     @if(Auth::user()->isAdmin)
         <h1 class="title">{{$user->name}}さんの勤怠</h1>
@@ -39,7 +39,11 @@
             </td>
             <td class="data__others">{{formatTotalTime($attendance->work_total)}}</td>
             <td class="data__others">
+            @if($attendance->accepted === 0 || !Auth::user()->isAdmin)
                 <a class="detail" href="{{route('attendanceDetail.show',$attendance->id)}}">詳細</a>
+            @else
+                <a class="detail" href="{{route('requestDetail.show',$attendance->id)}}">詳細</a>
+            @endif
             </td>
         </tr>
         @endforeach

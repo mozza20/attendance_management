@@ -28,9 +28,16 @@
                 <tr class="table--row">
                     <th class="table--header">出勤・退勤</th>
                     <td class="table--data">
-                        <input class="table--data__start" type="text" name="rev_start_time" pattern="[0-2][0-9]:[0-5][0-9]" value="{{formatTime($attendance->start_time)}}">
+                        <input class="table--data__start" type="text" name="rev_start_time" value="{{old('rev_start_time', formatTime($attendance->start_time ?? ''))}}">
                         <p class="tilde">～</p>
-                        <input class="table--data__finish" type="text" pattern="[0-2][0-9]:[0-5][0-9]" name="rev_finish_time" value="{{formatTime($attendance->finish_time)}}">
+                        <input class="table--data__finish" type="text" name="rev_finish_time" value="{{old('rev_finish_time', formatTime($attendance->finish_time ?? ''))}}">
+                        <p class="form__error-message">
+                            @foreach (['rev_start_time', 'rev_finish_time'] as $field)
+                                @error($field)
+                                {{$message}}
+                                @enderror
+                            @endforeach
+                        </p>
                     </td>
                 </tr>
                 @foreach($breakTimes as $index=>$breakTime) 
@@ -44,9 +51,25 @@
                     </th>
                     <td class="table--data">
                         <input type="hidden" name="breaks[{{$index}}][id]" value="{{ $breakTime->id }}">
-                        <input class="table--data__start" type="text" name="breaks[{{$index}}][rev_start_time]" pattern="[0-2][0-9]:[0-5][0-9]" value="{{formatTime($breakTime->start_time)}}">
+                        <input class="table--data__start" type="text" name="breaks[{{$index}}][rev_start_time]" value="{{old('breaks.$index.rev_start_time', formatTime($breakTime->start_time ?? ''))}}">
                         <p class="tilde">～</p>
-                        <input class="table--data__finish" type="text" name="breaks[{{$index}}][rev_end_time]" pattern="[0-2][0-9]:[0-5][0-9]" value="{{formatTime($breakTime->end_time)}}">
+                        <input class="table--data__finish" type="text" name="breaks[{{$index}}][rev_end_time]" value="{{old('breaks.$index.rev_end_time', formatTime($breakTime->end_time ?? ''))}}">
+                        <p class="form__error-message">
+                            @php
+                                $messages = collect([
+                                    $errors->get("breaks.$index.rev_start_time"),
+                                    $errors->get("breaks.$index.rev_end_time"),
+                                ])->flatten()->unique();
+                            @endphp
+
+                            @if ($messages->isNotEmpty())
+                            <ul class="error-list">
+                                @foreach ($messages as $message)
+                                <li>{{$message}}</li>
+                                @endforeach
+                            </ul>
+                            @endif
+                        </p>
                     </td>
                 </tr>
                 @endforeach
@@ -60,15 +83,37 @@
                     </th>
                     <td class="table--data">
                         <input type="hidden" name="breaks[{{$breakCount}}][id]" value="">
-                        <input class="table--data__start" type="text" name="breaks[{{$breakCount+1}}][rev_start_time]" pattern="[0-2][0-9]:[0-5][0-9]">
+                        <input class="table--data__start" type="text" name="breaks[{{$breakCount+1}}][rev_start_time]">
                         <p class="tilde">～</p>
-                        <input class="table--data__finish" type="text" name="breaks[{{$breakCount+1}}][rev_end_time]" pattern="[0-2][0-9]:[0-5][0-9]">
+                        <input class="table--data__finish" type="text" name="breaks[{{$breakCount+1}}][rev_end_time]">
+                        <p class="form__error-message">
+                            @php
+                                $newIndex = $breakCount+1;
+                                $messages = collect([
+                                    $errors->get("breaks.$newIndex.rev_start_time"),
+                                    $errors->get("breaks.$newIndex.rev_end_time"),
+                                ])->flatten()->unique();
+                            @endphp
+
+                            @if ($messages->isNotEmpty())
+                            <ul class="error-list">
+                                @foreach ($messages as $message)
+                                <li>{{$message}}</li>
+                                @endforeach
+                            </ul>
+                            @endif
+                        </p>
                     </td>
                 </tr>
                 <tr class="table--row">
                     <th class="table--header">備考</th>
                     <td class="table--data">
                         <textarea class="table--data__textarea" name="remarks"></textarea>
+                        <p class="form__error-message">
+                            @error('remarks')
+                            {{$message}}
+                            @enderror
+                        </p>
                     </td>
                 </tr>
             </table>
@@ -77,8 +122,8 @@
             </div>
         </form>
 
-    {{--申請済み(承認待ち)--}}
-    @elseif($attendance->accepted === 1)
+    {{--申請済み--}}
+    @else
         <table class="detail--table">
             <tr class="table--row">
                 <th class="table--header">名前</th>
@@ -121,7 +166,11 @@
                 <td class="table--data">{{$revData['remarks']}}</td>
             </tr>
         </table>
+        @if($attendance->accepted === 1)
             <p class="status__message">*承認待ちのため修正はできません。</p>
+        @elseif($attendance->accepted === 2)
+            <p class="status__message">*承認済みのため修正はできません。</p>
+        @endif
     @endif
 </div>
 @endsection

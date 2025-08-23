@@ -144,3 +144,14 @@ body {
     letter-spacing: 0.15em;
     cursor: auto;
 }
+
+.form__error-message {
+    font-size: 16px;
+}
+
+.error-list {
+    padding-left: 0;
+    list-style: none;
+    text-align: left;
+    color: #FF5555;
+}

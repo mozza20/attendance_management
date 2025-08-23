@@ -31,7 +31,7 @@
             </div>
             @endif
         @else
-            <a class="header__logo" href="{{('user.attendance')}}">
+            <a class="header__logo" href="{{route('attendanceList')}}">
                 <img src="{{asset('img/logo.svg')}}" alt="COACHTECH">
             </a>
             @if(!View::hasSection('no-nav'))

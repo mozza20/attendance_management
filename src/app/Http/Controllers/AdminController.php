@@ -111,29 +111,57 @@ class AdminController extends Controller
 
         //Attendance上書き
         $attendance->fill([
-            'start_time'  => $revData->rev_start_time,
+            'start_time' => $revData->rev_start_time,
             'finish_time' => $revData->rev_finish_time,
-            'work_total'  => $revData->rev_work_total,
-            'remarks'     => $revData->remarks,
-            'accepted'    => 2,
+            'work_total' => $revData->rev_work_total,
+            'remarks' => $revData->remarks,
+            'accepted' => 2,
         ]);
         $attendance->save();
 
         $breakTimes = BreakTime::where('attendance_id', $attendance_id)->get();
         $revBreaks = RevBreak::where('attendance_id',$attendance_id)->get();
+        $revBreakIds = [];
 
-        //BreakTime上書き
-        foreach ($breakTimes as $breakTime) {
-            $rev = $revBreaks->firstWhere('break_time_id', $breakTime->id);
-            if ($rev) {
-                $breakTime->start_time  = $rev->rev_start_time;
-                $breakTime->end_time    = $rev->rev_end_time;
-                $breakTime->break_total = $rev->rev_break_total;
+        foreach($revBreaks as $revBreak){
+            //一致するidを探す
+            $breakTime = $breakTimes->firstWhere('id', $revBreak->break_id);
 
+            if($breakTime){
+                //idが一致した場合BreakTime上書き
+                $breakTime->start_time = $revBreak->rev_start_time;
+                $breakTime->end_time = $revBreak->rev_end_time;
+                $breakTime->break_total = $revBreak->rev_break_total;
                 $breakTime->save();
+            }else{
+                //なければ追加
+                $newBreak = BreakTime::create([
+                'attendance_id' => $attendance_id,
+                'start_time' => $revBreak->rev_start_time,
+                'end_time' => $revBreak->rev_end_time,
+                'break_total' => $revBreak->rev_break_total,
+            ]);
+            $revBreak->save();
+            }
+
+            if ($revBreak->break_id) {
+                $revBreakIds[] = $revBreak->break_id;
             }
         }
+
+        
+        //修正時に削除した休憩データをBreakTimeから削除
+        BreakTime::where('attendance_id', $attendance_id)
+            ->whereNotIn('id', $revBreakIds)
+            ->delete();
+
         return redirect()->route('requestDetail.show',$attendance_id);
+
     }
 
+
+    //修正機能
+    public function edit(Request $request, $attendance_id){
+        
+    }
 }

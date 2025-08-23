@@ -13,9 +13,11 @@ class AttendanceFactory extends Factory
      *
      * @return array
      */
-    public function definition()
-    {
-        $baseDate = Carbon::today();
+
+    protected $model = Attendance::class;
+
+    public function definition(){
+        $baseDate = $this->faker->dateTimeThisMonth(); 
 
         //勤務時間を8:00~20:00の間に設定
         $startTime = $baseDate->copy()->setTime(8, 0, 0);
@@ -33,12 +35,12 @@ class AttendanceFactory extends Factory
         $workSeconds = max($workSeconds, 0); // マイナスを防ぐ
 
         return [
-            'user_id' => $this->faker->numberBetween(1,3),
-            'date' => $this->faker->dateTimeBetween('-3 month','now'),
+            'user_id' => 1,
+            'date' => $baseDate,
             'start_time'=> Carbon::instance($start)->format('H:i:s'),
             'finish_time'=> Carbon::instance($finish)->format('H:i:s'),
             'work_total'=>$workSeconds,
-            'status_id' => $this->faker->numberBetween(1, 4),
+            'status_id' => 4,
         ];
     }
 }

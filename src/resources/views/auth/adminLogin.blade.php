@@ -30,7 +30,9 @@
                 </p>
             </div>
             <button class="form__button">管理者ログインする</button>
-            <a class="under-button__link" href="{{route('auth.login')}}">スタッフはこちら</a>
+            
+            <!-- 切り替えやすいように表示(最後に消す) -->
+            <a class="switch-user__link" href="{{route('auth.login')}}">スタッフはこちら</a>
             
         </form>
     </div>

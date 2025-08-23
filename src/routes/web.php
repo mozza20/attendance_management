@@ -23,8 +23,7 @@ use App\Http\Controllers\MailTestController; // メール認証用
 */
 
 
-//一般ユーザー
-
+//一般ユーザー --------------------------------
 //登録画面の表示
 Route::get('/register', [AuthController::class, 'user'])->name('auth.register');
 
@@ -66,14 +65,11 @@ Route::middleware('auth','verified','user')->group(function () {
 
     //勤怠一覧表示
     Route::get('/attendance/list',[UserController::class,'index'])->name('attendanceList');
-
-    //勤怠修正申請
-    Route::post('/attendance/detail/confirm/{attendance_id}',[UserController::class,'edit'])->name('attendanceDetail.confirm');
     
 });
 
 
-//管理者
+//管理者 --------------------------------------
 
 //ログイン画面の表示
 Route::get('/admin/login',[AuthController::class,'showAdminLoginForm'])->middleware('guest')->name('auth.adminLogin');
@@ -102,16 +98,17 @@ Route::middleware(['auth', 'verified', 'admin'])->group(function () {
     //承認処理
     Route::post('/admin/requests/{attendance_id}',[AdminController::class, 'update'])->name('attendanceDetail.update');
 
-    //勤怠詳細表示
-    // Route::get('/admin/requests/{attendance_id}',[AdminController::class, 'acceptedIndex'])->name('acceptedDetail.show');
 });
 
 
-//一般・管理者共通_ログイン必須
+//一般・管理者共通_ログイン必須 --------------------------------
 Route::middleware(['auth', 'verified'])->group(function () {
     
     // 勤怠詳細表示
     Route::get('/attendance/detail/{attendance_id}',[AttendanceController::class,'show'])->name('attendanceDetail.show');
+
+    //勤怠修正申請
+    Route::post('/attendance/detail/confirm/{attendance_id}',[AttendanceController::class,'edit'])->name('attendanceDetail.confirm');
     
     //申請一覧表示
     Route::get('/stamp_correction_request/list',[AttendanceController::class,'showRequest'])->name('requestLists');
@@ -119,7 +116,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
 });
 
 
-// ログアウト
+// ログアウト(共通)
 Route::middleware('auth')->group(function () {
     Route::post('/logout',[AuthController::class,'logout'])->name('logout');
 });

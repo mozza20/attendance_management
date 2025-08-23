@@ -125,6 +125,15 @@ html {
     font-size: 20px;
 }
 
+/* 一般・管理者切り替え用(消す) */
+.switch-user__link {
+    display: block;
+    margin-top: 30px;
+    text-decoration: none;
+    color: #5F5F5F;
+    font-size: 20px;
+}
+
 button,
 a {
     cursor: pointer;

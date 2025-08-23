@@ -35,7 +35,11 @@
             </td>
             <td class="data__others">{{formatTotalTime($attendance->work_total)}}</td>
             <td class="data__others">
+            @if($attendance->accepted === 0)
                 <a class="detail" href="{{route('attendanceDetail.show',$attendance->id)}}">詳細</a>
+            @else
+                <a class="detail" href="{{route('requestDetail.show',$attendance->id)}}">詳細</a>
+            @endif
             </td>
         </tr>
         @endforeach

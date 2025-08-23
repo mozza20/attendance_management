@@ -16,7 +16,7 @@ class UsersTableSeeder extends Seeder
     public function run()
     {
         //一般ユーザーの作成
-        User::factory()->count(3)->create();
+        User::factory()->count(5)->create();
 
         // 管理者の作成
         User::create([

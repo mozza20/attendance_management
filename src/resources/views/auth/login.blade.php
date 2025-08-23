@@ -31,7 +31,9 @@
             </div>
             <button class="form__button">ログインする</button>
             <a class="under-button__link" href="{{route('auth.register')}}">会員登録はこちら</a>
-            <a class="under-button__link" href="{{route('auth.adminLogin')}}">管理者はこちら</a>
+            
+            <!-- 切り替えやすいように表示(最後に消す) -->
+            <a class="switch-user__link" href="{{route('auth.adminLogin')}}">管理者はこちら</a>
         </form>
     </div>
 </div>
