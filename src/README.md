@@ -49,7 +49,7 @@ mailtrapというツールを使用しています。
 
 ## ER図
 
-![ER図](docs/images/Attendance_management.drawio)
+![ER図](docs/images/Attendance_management.drawio.png)
 
 
 ## テストアカウント
