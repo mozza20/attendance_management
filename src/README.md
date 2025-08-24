@@ -1,64 +1,76 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400"></a></p>
+# 勤怠管理アプリ
 
-<p align="center">
-<a href="https://travis-ci.org/laravel/framework"><img src="https://travis-ci.org/laravel/framework.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
 
-## About Laravel
+## 環境構築
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+### Dockerの起動
+ ```bash
+git clone git@github.com:mozza20/attendance_management.git
+docker-compose up -d --build
+```
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+### Laravelのセットアップ
+ ```bash
+docker-compose exec php bash  
+composer install   
+cp .env.example .env  
+php artisan key:generate  
+```
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+### 環境変数の設定
+```env
+DB_CONNECTION=mysql  
+DB_HOST=mysql  
+DB_PORT=3306  
+DB_DATABASE=laravel_db  
+DB_USERNAME=laravel_user  
+DB_PASSWORD=laravel_pass
+``` 
 
-## Learning Laravel
+### データベースの初期化
+```
+php artisan migrate --seed
+```
+```--seed```でユーザーと勤怠実績のダミーデータを作成します。
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+## 使用技術
+- PHP 8.4.3
+- Laravel 8.83.8
+- MySQL 8.0.26
+- MailHog
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 1500 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+## メール認証
+mailtrapというツールを使用しています。
+1. 会員登録 https://mailtrap.io/
+2. Mailbox の Integrations → "Laravel 7.x and 8.x" を選択
+3. 表示された設定を .env の MAIL_MAILER ～ MAIL_ENCRYPTION にコピー
+4. MAIL_FROM_ADDRESS は任意のメールアドレスを設定  
+  
 
-## Laravel Sponsors
+## ER図
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
+![ER図](docs/images/Attendance_management.drawio)
 
-### Premium Partners
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[OP.GG](https://op.gg)**
-- **[WebReinvent](https://webreinvent.com/?utm_source=laravel&utm_medium=github&utm_campaign=patreon-sponsors)**
-- **[Lendio](https://lendio.com)**
+## テストアカウント
 
-## Contributing
+- 一般ユーザー  
+name:山田 太郎  
+email: testuser@example.com  
+password: password1234  
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+- 管理者  
+email: admin@example.com  
+password: admin2345  
 
-## Code of Conduct
+## ヘルパ関数
+`app\helper.php` に、時刻の形式を整形するために独自の関数を定義しています。  
+Laravelの`composer.json`でautoload設定済みなので、どこでも呼び出せます。
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
 
-## Security Vulnerabilities
+## URL
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+- 開発環境： http://localhost/
+- phpMyAdmin:： http://localhost:8080/
+- Mailhog: http://localhost:8025
 
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).

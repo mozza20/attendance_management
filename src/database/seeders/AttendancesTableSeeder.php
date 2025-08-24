@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\Attendance;
+use Carbon\Carbon;
 use Illuminate\Database\Seeder;
 
 class AttendancesTableSeeder extends Seeder
