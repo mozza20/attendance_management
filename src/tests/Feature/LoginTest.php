@@ -3,18 +3,12 @@
 namespace Tests\Feature;
 
 use App\Models\User;
-use Database\Seeders\StatusesTableSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
 class LoginTest extends TestCase
 {
     use RefreshDatabase;
-
-    protected function setUp(): void{
-        parent::setUp();
-        $this->seed(StatusesTableSeeder::class);
-    }
 
     //一般ユーザー_ログイン機能---------------------------
     public function test_login_user(){
