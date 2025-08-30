@@ -15,8 +15,16 @@ class UsersTableSeeder extends Seeder
      */
     public function run()
     {
-        //一般ユーザーの作成
-        User::factory()->count(5)->create();
+        //固定ユーザーの作成(メール認証が必要)
+        User::create([
+            'name' => '山田 太郎',
+            'email' => 'testuser@example.com',
+            'isAdmin' => 0,
+            'password' => Hash::make('password1234'), 
+        ]);
+
+         //一般ユーザーの作成
+        User::factory()->count(9)->create();
 
         // 管理者の作成
         User::create([

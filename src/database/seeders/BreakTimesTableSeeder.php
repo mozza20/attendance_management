@@ -14,6 +14,6 @@ class BreakTimesTableSeeder extends Seeder
      */
     public function run()
     {
-        BreakTime::factory()->count(1000)->create();
+        BreakTime::factory()->count(100)->create();
     }
 }

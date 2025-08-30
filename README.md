@@ -54,7 +54,7 @@ mailtrapというツールを使用しています。
 
 ## テストアカウント
 
-- 一般ユーザー  
+- 一般ユーザー (未認証)
 name:山田 太郎  
 email: testuser@example.com  
 password: password1234  

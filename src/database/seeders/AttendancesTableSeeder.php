@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\Attendance;
+use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Database\Seeder;
 
@@ -14,7 +15,9 @@ class AttendancesTableSeeder extends Seeder
      * @return void
      */
     public function run(){
-        $users = [1, 2, 3, 4, 5];
+        //管理者以外のユーザーIDを配列にする
+        $users = User::where('isAdmin', 0)->pluck('id'); 
+
         $startDate = Carbon::today()->subMonth(3);
         $endDate = Carbon::today()->addMonth();
 

@@ -11,18 +11,6 @@ use App\Http\Controllers\CsvDownloadController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\MailTestController; // メール認証用
 
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| contains the "web" middleware group. Now create something great!
-|
-*/
-
-
 //一般ユーザー --------------------------------
 //登録画面の表示
 Route::get('/register', [AuthController::class, 'user'])->name('auth.register');
