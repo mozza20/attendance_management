@@ -21,8 +21,9 @@ class StatusesTableSeeder extends Seeder
             4=>"退勤済",
         ];
 
-        foreach ($statuses as $status) {
+        foreach ($statuses as $id => $status) {
             DB::table('statuses')->insert([
+                'id' => $id,
                 'status' => $status,
             ]);
         }

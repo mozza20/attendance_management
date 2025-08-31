@@ -16,29 +16,16 @@ class BreakTimeFactory extends Factory
      */
     public function definition()
     {
-        //勤務時間を取得(ダミー180件)
-        $attendanceId=$this->faker->numberBetween(1,180);
-        $attendance=\App\Models\Attendance::find($attendanceId);
+        $startTime = $this->start_time ?? Carbon::today()->setTime(12, 0, 0);  // 休憩開始
+        $endTime = $this->end_time ?? Carbon::today()->setTime(13, 0, 0);      // 休憩終了
 
-        $startTime = Carbon::today()->setTime(8, 0, 0);
-        $endTime = Carbon::today()->setTime(20, 0, 0);
-
-        //退勤時間入っていなくても20時までの時間を設定
-        if ($attendance) {
-            $startTime = Carbon::parse($attendance->start_time);
-            $endTime = Carbon::parse($attendance->finish_time ?? '20:00:00');
-        }
-
-        $start = $this->faker->dateTimeBetween($startTime, $endTime);
-        $finish = $this->faker->dateTimeBetween($start, $endTime);
-
-        $breakTotal=Carbon::instance($finish)->diffInSeconds(Carbon::instance($start));
+        $breakTotal = Carbon::instance($endTime)->diffInSeconds(Carbon::instance($startTime));
 
         return [
-            'attendance_id'=>$attendanceId,
-            'start_time'=>Carbon::instance($start)->format('H:i:s'),
-            'end_time'=>Carbon::instance($finish)->format('H:i:s'),
-            'break_total'=>$breakTotal,
+            'attendance_id' => $this->attendance_id ?? 1, 
+            'start_time' => Carbon::instance($startTime)->format('H:i:s'),
+            'end_time'   => Carbon::instance($endTime)->format('H:i:s'),
+            'break_total' => $breakTotal,
         ];
     }
 }
