@@ -22,8 +22,7 @@ class AttendanceTest extends TestCase
 
     use RefreshDatabase;
 
-    protected function setUp(): void
-    {
+    protected function setUp(): void{
         parent::setUp();
         $this->seed(StatusesTableSeeder::class);
     }
@@ -135,7 +134,7 @@ class AttendanceTest extends TestCase
 
         $attendance = Attendance::factory()->create([
             'user_id' => $user->id,
-            'date'    => $fixedNow->toDateString(),
+            'date' => $fixedNow->toDateString(),
             'status_id' => 2,
             'start_time' => $fixedNow->format('H:i:s'),
         ]);
@@ -184,7 +183,7 @@ class AttendanceTest extends TestCase
 
         $attendance = Attendance::factory()->create([
             'user_id' => $user->id,
-            'date'    => $fixedNow->toDateString(),
+            'date' => $fixedNow->toDateString(),
             'status_id' => 2,
             'start_time' => $fixedNow->format('H:i:s'),
         ]);

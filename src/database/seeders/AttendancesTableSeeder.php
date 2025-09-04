@@ -19,7 +19,7 @@ class AttendancesTableSeeder extends Seeder
         $users = User::where('isAdmin', 0)->pluck('id'); 
 
         $startDate = Carbon::today()->subMonth(3);
-        $endDate = Carbon::today()->addMonth();
+        $endDate = Carbon::today()->subDay();
 
         foreach($users as $userId){
             $currentDate = $startDate->copy();

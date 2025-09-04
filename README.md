@@ -63,6 +63,20 @@ password: password1234
 email: admin@example.com  
 password: admin2345  
 
+## PHPUnitを利用したテストに関して
+以下のコマンド：
+```
+//テスト用データベースの作成
+docker-compose exec mysql bash
+mysql -u root -p
+//パスワードはrootと入力
+create database test_database;
+
+docker-compose exec php bash
+php artisan migrate:fresh --env=testing
+./vendor/bin/phpunit
+```
+
 ## ヘルパ関数
 `app\helper.php` に、時刻の形式を整形するために独自の関数を定義しています。  
 Laravelの`composer.json`でautoload設定済みなので、どこでも呼び出せます。
