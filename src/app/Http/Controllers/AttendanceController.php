@@ -120,10 +120,10 @@ class AttendanceController extends Controller
         
         if(!Auth::user()->isAdmin){
             //一般ユーザのとき、自分の勤怠データを取得
-            $attendances=Attendance::where('user_id',$user_id)->get();
+            $attendances=Attendance::where('user_id',$user_id)->with('breakTimes')->get();
         }else{
             //管理者のとき、全員の勤怠データを取得
-            $attendances=Attendance::with('user')->get();
+            $attendances=Attendance::with('user')->with('breakTimes')->get();
         }
 
         $userIds=$attendances->pluck('user_id');

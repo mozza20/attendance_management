@@ -14,18 +14,30 @@ class BreakTimeFactory extends Factory
      *
      * @return array
      */
-    public function definition()
-    {
-        $startTime = $this->start_time ?? Carbon::today()->setTime(12, 0, 0);  // 休憩開始
-        $endTime = $this->end_time ?? Carbon::today()->setTime(13, 0, 0);      // 休憩終了
-
-        $breakTotal = Carbon::instance($endTime)->diffInSeconds(Carbon::instance($startTime));
-
+    public function definition(){
         return [
-            'attendance_id' => $this->attendance_id ?? 1, 
-            'start_time' => Carbon::instance($startTime)->format('H:i:s'),
-            'end_time'   => Carbon::instance($endTime)->format('H:i:s'),
-            'break_total' => $breakTotal,
+            'attendance_id' => null,
+            'start_time'    => '12:00:00',
+            'end_time'      => '13:00:00',
+            'break_total'   => 3600,
         ];
+    }
+
+    // 昼休憩
+    public function lunchBreak(){
+        return $this->state(fn() => [
+            'start_time'  => '12:00:00',
+            'end_time'    => '13:00:00',
+            'break_total' => 3600,
+        ]);
+    }
+
+    // 午後休憩
+    public function afternoonBreak(){
+        return $this->state(fn() => [
+            'start_time'  => '15:00:00',
+            'end_time'    => '15:10:00',
+            'break_total' => 600,
+        ]);
     }
 }

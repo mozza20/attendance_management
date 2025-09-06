@@ -99,7 +99,7 @@ class UserController extends Controller
     }
 
     //勤怠一覧表示
-     public function index(Request $request){
+    public function index(Request $request){
         $user=Auth::user();
         $user_id=$user->id;
 

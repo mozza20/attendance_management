@@ -32,12 +32,15 @@
         @foreach($attendances as $attendance)
         <tr class="table--row">
             <td class=data__date>{{formatJapaneseDate($attendance->date)}}</td>
-            <td class="data__others">{{formatTime($attendance->start_time)}}</td>
-            <td class="data__others">{{formatTime($attendance->finish_time)}}</td>
+            <td class="data__others">{{$attendance->start_time ? formatTime($attendance->start_time) : ''}}</td>
+            <td class="data__others">{{$attendance->finish_time ? formatTime($attendance->finish_time) : '' }}</td>
+            @php
+                $breakTotal = $attendance->breakTimes->sum('break_total');
+            @endphp
             <td class="data__others">
-                {{ gmdate('G:i', $attendance->breakTimes->sum('break_total')) }}
+                {{ $breakTotal > 0 ? gmdate('G:i', $breakTotal) : '' }}
             </td>
-            <td class="data__others">{{formatTotalTime($attendance->work_total)}}</td>
+            <td class="data__others">{{$attendance->work_total ? formatTotalTime($attendance->work_total) : ''}}</td>
             <td class="data__others">
             @if($attendance->accepted === 0 || !Auth::user()->isAdmin)
                 <a class="detail" href="{{route('attendanceDetail.show',$attendance->id)}}">詳細</a>
@@ -50,6 +53,7 @@
     </table>
     @if(Auth::user()->isAdmin)
         <form class="form--button" action="{{route('downloadCsv', $user_id)}}">
+            <input type="hidden" name="ym" value="{{ $currentYM }}">
             <button class="form--button__output" type="submit">CSV出力</button>
         </form>
     @endif

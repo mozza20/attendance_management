@@ -19,28 +19,18 @@ class AttendanceFactory extends Factory
     public function definition(){
         $baseDate = Carbon::instance($this->faker->dateTimeThisMonth());
 
-        //勤務時間を8:00~20:00の間に設定
-        $startTime = $baseDate->copy()->setTime(8, 0, 0);
-        $endTime = $baseDate->copy()->setTime(20, 0, 0);
+        $startTime = $this->start_time ?? null;
+        $finishTime = $this->finish_time ?? null;
 
-        // 出勤・退勤時間
-        $start = Carbon::instance($this->faker->dateTimeBetween($startTime, $endTime));
-        $finish = Carbon::instance($this->faker->dateTimeBetween($start, $endTime));
-
-        //仮の休憩時間 (後でBreakTimeFactoryで上書き)
-        $dummyBreakSeconds=rand(0,60*60);
-
-        //勤務時間
-        $workSeconds = $finish->diffInSeconds($start) - $dummyBreakSeconds;
-        $workSeconds = max($workSeconds, 0); // マイナスを防ぐ
+        $workSeconds = ($startTime && $finishTime) ? $finishTime->diffInSeconds($startTime) : 0;
 
         return [
-            'user_id' => 1,
-            'date' => $baseDate,
-            'start_time'=> Carbon::instance($start)->format('H:i:s'),
-            'finish_time'=> Carbon::instance($finish)->format('H:i:s'),
-            'work_total'=>$workSeconds,
-            'status_id' => 4,
+            'user_id' => $this->user_id ?? 1,
+            'date' => $this->date ?? $baseDate,
+            'start_time'=> $startTime ? $startTime->format('H:i:s') : null,
+            'finish_time'=> $finishTime ? $finishTime->format('H:i:s') : null,
+            'work_total'=> $workSeconds,
+            'status_id' => $this->status_id ?? 4,
         ];
     }
 }

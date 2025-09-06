@@ -6,14 +6,24 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Attendance;
 use App\Models\BreakTime;
+use Carbon\CarbonImmutable;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 
 
 class CsvDownloadController extends Controller
 {
-    public function downloadCsv($user_id){
+    public function downloadCsv(Request $request, $user_id){
         $userName=User::where('id',$user_id)->value('name');
-        $attendances=Attendance::where('user_id',$user_id)->get();
+
+        $ym = $request->input('ym');
+        $currentYM = CarbonImmutable::createFromFormat('Y-m', $ym)->startOfMonth();
+        $startOfMonth = $currentYM->startOfMonth();
+        $endOfMonth   = $currentYM->endOfMonth();
+
+        $attendances=Attendance::where('user_id',$user_id)
+            ->whereBetween('date', [$startOfMonth, $endOfMonth])
+            ->get();
+
         $csvHeader = ['日付', '出勤', '退勤', '休憩', '合計'];
         $csvData = $attendances->map(function($attendance){
             return[

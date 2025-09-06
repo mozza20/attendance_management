@@ -8,6 +8,7 @@ use App\Models\BreakTime;
 use Database\Seeders\StatusesTableSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
+use Carbon\Carbon;
 use Carbon\CarbonImmutable;
 use Tests\TestCase;
 
@@ -124,6 +125,35 @@ class UserTest extends TestCase
         $response->assertSee(formatTime($breakTimes[0]->end_time));
         $response->assertSee(formatTime($breakTimes[1]->start_time));
         $response->assertSee(formatTime($breakTimes[1]->end_time));
+    }
+
+    //勤怠エラーの確認
+    public function test_display_error_messages(){
+        [$user, $attendance] = $this->createUserWithAttendance();
+        $this->actingAs($user);
+        $attendanceId = $attendance->id;
+
+        $response = $this->from('/attendance/detail/'.$attendanceId)        
+            ->followingRedirects()
+            ->post('/attendance/detail/confirm/'.$attendanceId, [
+                'rev_start_time' => '18:00',
+                'rev_finish_time' => '17:00',
+                'breaks' => [
+                    1=> ['rev_start_time' => '18:00', 'rev_end_time' => '18:15'],
+                ],
+            ]);
+
+        //出勤>退勤の場合
+        $response->assertSee('出勤時間もしくは退勤時間が不適切な値です');
+
+        //休憩開始>退勤の場合
+        $response->assertSee('休憩時間が不適切な値です');
+
+        //休憩終了>退勤の場合
+        $response->assertSee('休憩時間もしくは退勤時間が不適切な値です');
+        
+        //備考欄が未入力の場合
+        $response->assertSee('備考欄を記入してください');
     }
 
 }
