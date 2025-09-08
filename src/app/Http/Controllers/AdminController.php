@@ -148,7 +148,6 @@ class AdminController extends Controller
                 $revBreakIds[] = $revBreak->break_id;
             }
         }
-
         
         //修正時に削除した休憩データをBreakTimeから削除
         BreakTime::where('attendance_id', $attendance_id)
@@ -156,9 +155,7 @@ class AdminController extends Controller
             ->delete();
 
         return redirect()->route('requestDetail.show',$attendance_id);
-
     }
-
 
     //修正機能
     public function edit(Request $request, $attendance_id){
